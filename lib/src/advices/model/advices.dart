@@ -10,8 +10,6 @@ class Advices {
     advice.aceh = json['aceh'];
     advice.indonesia = json['indonesia'];
 
-    print(json['similiarity']);
-
     if (json['similiarity'] == 1) {
       advice.similiarity = 1.0;
     } else {

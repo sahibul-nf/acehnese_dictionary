@@ -1,11 +1,11 @@
 import 'package:acehnese_dictionary/src/admob/admob_controller.dart';
 import 'package:acehnese_dictionary/src/advices/controller/advices_controller.dart';
+import 'package:acehnese_dictionary/src/advices/view/arview_page.dart';
 import 'package:acehnese_dictionary/src/advices/widgets/advices_card.dart';
 import 'package:acehnese_dictionary/src/advices/widgets/search_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/instance_manager.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:unicons/unicons.dart';
@@ -168,10 +168,11 @@ class AdvicesPage extends StatelessWidget {
                                   InkWell(
                                     onTap: () {
                                       search.text = item.aceh;
-                                      if (admobController
-                                          .isInterstitialAdReady.value) {
-                                        admobController.interstitialAd?.show();
-                                      }
+                                      // if (admobController
+                                      //     .isInterstitialAdReady.value) {
+                                      //   admobController.interstitialAd?.show();
+                                      // }
+                                      Get.to(const ARViewPage());
                                     },
                                     child: AdvicesCard(
                                       textAceh: item.aceh,

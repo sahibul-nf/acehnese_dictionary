@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 
 class AdvicesController extends GetxController {
   final _advices = <Advices>[].obs;
-  get advices => _advices;
+  List<Advices> get advices => _advices;
 
   getAdvices(String word) async {
     var url = Uri.parse(

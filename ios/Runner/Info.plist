@@ -47,5 +47,7 @@
 	<string>ca-app-pub-3543155113706123~8455891741</string>
 	<key>NSCameraUsageDescription</key>
     <string>camera access is required to show AR View to users.</string>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 </dict>
 </plist>

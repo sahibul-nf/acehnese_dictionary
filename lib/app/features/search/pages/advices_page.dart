@@ -1,8 +1,8 @@
-import 'package:acehnese_dictionary/src/admob/admob_controller.dart';
-import 'package:acehnese_dictionary/src/advices/controller/advices_controller.dart';
-import 'package:acehnese_dictionary/src/advices/view/arview_page.dart';
-import 'package:acehnese_dictionary/src/advices/widgets/advices_card.dart';
-import 'package:acehnese_dictionary/src/advices/widgets/search_input.dart';
+import 'package:acehnese_dictionary/app/features/admob/admob_controller.dart';
+import 'package:acehnese_dictionary/app/features/search/controllers/advices_controller.dart';
+import 'package:acehnese_dictionary/app/features/search/pages/arview_page.dart';
+import 'package:acehnese_dictionary/app/features/search/widgets/advices_card.dart';
+import 'package:acehnese_dictionary/app/features/search/widgets/search_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';

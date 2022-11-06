@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:acehnese_dictionary/src/advices/model/advices.dart';
+import 'package:acehnese_dictionary/app/features/search/models/advices.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
 import 'package:http/http.dart' as http;

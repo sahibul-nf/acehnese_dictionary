@@ -1,4 +1,4 @@
-import 'package:acehnese_dictionary/src/advices/controller/advices_controller.dart';
+import 'package:acehnese_dictionary/app/features/search/controllers/advices_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

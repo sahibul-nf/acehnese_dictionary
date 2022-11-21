@@ -1,12 +1,17 @@
+import 'package:acehnese_dictionary/app/features/dictionary/controllers/dictionary_controller.dart';
 import 'package:acehnese_dictionary/app/features/dictionary/models/word.dart';
-import 'package:acehnese_dictionary/core/color.dart';
-import 'package:acehnese_dictionary/core/typography.dart';
+import 'package:acehnese_dictionary/app/utils/color.dart';
+import 'package:acehnese_dictionary/app/utils/typography.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/instance_manager.dart';
 
 import '../widgets/word_card.dart';
 
 class WordListPage extends StatelessWidget {
-  const WordListPage({Key? key}) : super(key: key);
+  WordListPage({Key? key}) : super(key: key);
+
+  final dictionaryController = Get.put(DictionaryController());
 
   @override
   Widget build(BuildContext context) {
@@ -49,27 +54,36 @@ class WordListPage extends StatelessWidget {
           body: TabBarView(
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              WordListBuilder(
-                words: List.generate(
-                  10,
-                  (index) => Word(id: index, aceh: "aceh"),
-                ),
-                language: "Aceh",
-              ),
-              WordListBuilder(
-                words: List.generate(
-                  10,
-                  (index) => Word(id: index, aceh: "aceh"),
-                ),
-                language: "Indonesia",
-              ),
-              WordListBuilder(
-                words: List.generate(
-                  10,
-                  (index) => Word(id: index, aceh: "aceh"),
-                ),
-                language: "English",
-              ),
+              Obx(() {
+                return dictionaryController.isLoading
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : WordListBuilder(
+                        words: dictionaryController.dictionaries,
+                        language: "Aceh",
+                      );
+              }),
+              Obx(() {
+                return dictionaryController.isLoading
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : WordListBuilder(
+                        words: dictionaryController.dictionaries,
+                        language: "Indonesia",
+                      );
+              }),
+              Obx(() {
+                return dictionaryController.isLoading
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : WordListBuilder(
+                        words: dictionaryController.dictionaries,
+                        language: "English",
+                      );
+              }),
             ],
           ),
         ),
@@ -86,14 +100,32 @@ class WordListBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // sorting by alphabet in ascending order (A-Z) based on language
+    if (language == "Aceh") {
+      words.sort((a, b) => a.aceh.compareTo(b.aceh));
+    } else if (language == "Indonesia") {
+      words.sort((a, b) => a.indonesia!.compareTo(b.indonesia!));
+    } else if (language == "English") {
+      words.sort((a, b) => a.english!.compareTo(b.english!));
+    }
+
     return ListView.builder(
       padding: const EdgeInsets.symmetric(vertical: 15),
       itemCount: words.length,
       itemBuilder: (context, index) {
+        var word = "";
+        if (language == "Aceh") {
+          word = words[index].aceh;
+        } else if (language == "Indonesia") {
+          word = words[index].indonesia!;
+        } else if (language == "English") {
+          word = words[index].english!;
+        }
+
         return WordCard(
-          word: words[index].aceh,
+          word: word,
           language: language,
-          imageUrl: "https://picsum.photos/200",
+          imageUrl: words[index].imageUrl,
         );
       },
     );

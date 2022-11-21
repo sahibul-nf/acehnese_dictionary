@@ -1,7 +1,7 @@
 import 'package:acehnese_dictionary/app/features/dictionary/models/word.dart';
 import 'package:acehnese_dictionary/app/features/dictionary/pages/word_list_page.dart';
-import 'package:acehnese_dictionary/core/color.dart';
-import 'package:acehnese_dictionary/core/typography.dart';
+import 'package:acehnese_dictionary/app/utils/color.dart';
+import 'package:acehnese_dictionary/app/utils/typography.dart';
 import 'package:flutter/material.dart';
 import 'package:unicons/unicons.dart';
 

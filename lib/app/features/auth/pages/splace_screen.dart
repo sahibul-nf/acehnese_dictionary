@@ -1,5 +1,5 @@
-import 'package:acehnese_dictionary/core/color.dart';
-import 'package:acehnese_dictionary/core/typography.dart';
+import 'package:acehnese_dictionary/app/utils/color.dart';
+import 'package:acehnese_dictionary/app/utils/typography.dart';
 import 'package:flutter/material.dart';
 import 'package:get/instance_manager.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';

@@ -64,13 +64,15 @@ class AdvicesCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "$textIndonesia",
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
-                        color: const Color(0xff2F2E41),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
+                    Expanded(
+                      child: Text(
+                        "$textIndonesia",
+                        style: GoogleFonts.poppins(
+                          color: const Color(0xff2F2E41),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     Text(

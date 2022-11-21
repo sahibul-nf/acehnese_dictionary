@@ -1,5 +1,5 @@
-import 'package:acehnese_dictionary/core/color.dart';
-import 'package:acehnese_dictionary/core/typography.dart';
+import 'package:acehnese_dictionary/app/utils/color.dart';
+import 'package:acehnese_dictionary/app/utils/typography.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -13,7 +13,7 @@ class WordCard extends StatelessWidget {
       : super(key: key);
   final String language;
   final String word;
-  final String imageUrl;
+  final String? imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -31,26 +31,31 @@ class WordCard extends StatelessWidget {
             width: 50,
             height: 50,
             decoration: BoxDecoration(
-              color: AppColor.secondary,
+              color: AppColor.secondary.withOpacity(0.2),
               borderRadius: BorderRadius.circular(16),
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(16),
-              child: CachedNetworkImage(
-                imageUrl: imageUrl,
-                fit: BoxFit.cover,
-                placeholder: (context, url) {
-                  return Center(
-                    child: LoadingAnimationWidget.threeArchedCircle(
-                      color: AppColor.primary,
-                      size: 20,
+              child: (imageUrl != null)
+                  ? CachedNetworkImage(
+                      imageUrl: imageUrl!,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) {
+                        return Center(
+                          child: LoadingAnimationWidget.threeArchedCircle(
+                            color: AppColor.primary,
+                            size: 20,
+                          ),
+                        );
+                      },
+                      errorWidget: (context, url, error) {
+                        return const Icon(Icons.broken_image_rounded);
+                      },
+                    )
+                  : const Icon(
+                      Icons.broken_image_rounded,
+                      color: AppColor.secondary,
                     ),
-                  );
-                },
-                errorWidget: (context, url, error) {
-                  return const Icon(Icons.broken_image_rounded);
-                },
-              ),
             ),
           ),
           const SizedBox(width: 16),

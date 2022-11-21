@@ -1,4 +1,4 @@
-import 'package:acehnese_dictionary/core/color.dart';
+import 'package:acehnese_dictionary/app/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:unicons/unicons.dart';
 

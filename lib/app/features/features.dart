@@ -1,8 +1,8 @@
 import 'package:acehnese_dictionary/app/features/bookmark/pages/bookmark_page.dart';
 import 'package:acehnese_dictionary/app/features/profile/pages/profile_page.dart';
 import 'package:acehnese_dictionary/app/features/search/pages/search_page.dart';
-import 'package:acehnese_dictionary/core/color.dart';
-import 'package:acehnese_dictionary/core/typography.dart';
+import 'package:acehnese_dictionary/app/utils/color.dart';
+import 'package:acehnese_dictionary/app/utils/typography.dart';
 import 'package:flutter/material.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:unicons/unicons.dart';
@@ -21,7 +21,7 @@ class _FeaturesState extends State<Features> {
 
   final feats = [
     SearchPage(),
-    const WordListPage(),
+    WordListPage(),
     const BookmarkPage(),
     const ProfilePage(),
   ];

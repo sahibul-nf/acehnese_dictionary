@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:unicons/unicons.dart';
 
-import '../../../../core/color.dart';
-import '../../../../core/typography.dart';
+import '../../../utils/color.dart';
+import '../../../utils/typography.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);

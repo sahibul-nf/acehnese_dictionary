@@ -1,4 +1,4 @@
-import 'package:acehnese_dictionary/core/helpers/admob_helper.dart';
+import 'package:acehnese_dictionary/app/utils/helpers/admob_helper.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 

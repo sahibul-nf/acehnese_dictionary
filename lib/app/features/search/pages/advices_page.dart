@@ -174,9 +174,9 @@ class AdvicesPage extends StatelessWidget {
                                       // }
                                       Get.to(const ARViewPage());
                                     },
-                                    child: AdvicesCard(
+                                    child: RecommendationCard(
                                       textAceh: item.aceh,
-                                      textIndonesia: item.indonesia,
+                                      similiarity: item.indonesia,
                                     ),
                                   )
                               ],

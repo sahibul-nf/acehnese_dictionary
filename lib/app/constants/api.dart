@@ -7,7 +7,7 @@ class Api {
 
 class ApiPath {
   static String getAllWords() => '/dictionaries';
-  static String getWord(int id) => '/dictionaries/$id';
+  static String getWordDetail(int id) => '/dictionaries/$id';
   static String searchWord(String query) => '/search?q=$query';
 }
 

@@ -13,6 +13,7 @@ class SearchController extends GetxController {
   bool get isLoading => _isLoading.value;
   bool get isError => _isError.value;
   List<RecommendationWordModel> get recommendations => _recommendations;
+  void resetRecommendations() => _recommendations.clear();
 
   @override
   void onInit() {

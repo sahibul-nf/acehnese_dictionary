@@ -1,10 +1,13 @@
 import 'package:acehnese_dictionary/app/features/dictionary/controllers/dictionary_controller.dart';
 import 'package:acehnese_dictionary/app/features/dictionary/models/word.dart';
+import 'package:acehnese_dictionary/app/routes/app_routes.dart';
 import 'package:acehnese_dictionary/app/utils/color.dart';
 import 'package:acehnese_dictionary/app/utils/typography.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../widgets/word_card.dart';
 
@@ -55,32 +58,35 @@ class WordListPage extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             children: [
               Obx(() {
-                return dictionaryController.isLoading
-                    ? const Center(
-                        child: CircularProgressIndicator(),
+                return dictionaryController.isLoadWordList
+                    ? Center(
+                        child: LoadingAnimationWidget.threeArchedCircle(
+                          color: AppColor.primary,
+                          size: 30,
+                        ),
                       )
                     : WordListBuilder(
-                        words: dictionaryController.dictionaries,
+                        words: dictionaryController.wordList,
                         language: "Aceh",
                       );
               }),
               Obx(() {
-                return dictionaryController.isLoading
+                return dictionaryController.isLoadWordList
                     ? const Center(
                         child: CircularProgressIndicator(),
                       )
                     : WordListBuilder(
-                        words: dictionaryController.dictionaries,
+                        words: dictionaryController.wordList,
                         language: "Indonesia",
                       );
               }),
               Obx(() {
-                return dictionaryController.isLoading
+                return dictionaryController.isLoadWordList
                     ? const Center(
                         child: CircularProgressIndicator(),
                       )
                     : WordListBuilder(
-                        words: dictionaryController.dictionaries,
+                        words: dictionaryController.wordList,
                         language: "English",
                       );
               }),
@@ -122,10 +128,18 @@ class WordListBuilder extends StatelessWidget {
           word = words[index].english!;
         }
 
-        return WordCard(
-          word: word,
-          language: language,
-          imageUrl: words[index].imageUrl,
+        return InkWell(
+          onTap: () {
+            Get.toNamed(
+              AppRoutes.wordDetail,
+              arguments: words[index].id,
+            );
+          },
+          child: WordCard(
+            word: word,
+            language: language,
+            imageUrl: words[index].imageUrl,
+          ),
         );
       },
     );

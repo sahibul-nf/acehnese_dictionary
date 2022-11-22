@@ -1,3 +1,4 @@
+import 'package:acehnese_dictionary/app/features/dictionary/pages/word_detail_page.dart';
 import 'package:acehnese_dictionary/app/features/search/controllers/search_controller.dart';
 import 'package:acehnese_dictionary/app/utils/color.dart';
 import 'package:acehnese_dictionary/app/utils/typography.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
+import '../../../routes/app_routes.dart';
 import '../widgets/advices_card.dart';
 import '../widgets/search_input.dart';
 
@@ -93,10 +95,13 @@ class SearchPage extends StatelessWidget {
                         margin: const EdgeInsets.symmetric(
                             horizontal: 24, vertical: 4),
                         // height: 140,
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 8,
+                        ),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.8),
-                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.white.withOpacity(.7),
+                          borderRadius: BorderRadius.circular(25),
                           boxShadow: [
                             BoxShadow(
                                 offset: const Offset(12, 26),
@@ -117,16 +122,28 @@ class SearchPage extends StatelessWidget {
                                   for (var item in controller.recommendations)
                                     InkWell(
                                       onTap: () {
-                                        // search.text = item.aceh!;
+                                        // set input text
+                                        controller.inputController.text =
+                                            item.aceh;
+
+                                        // reset recommendations
+                                        controller.resetRecommendations();
+
                                         // if (admobController
                                         //     .isInterstitialAdReady.value) {
                                         //   admobController.interstitialAd?.show();
                                         // }
-                                        // Get.to(const ARViewPage());
+
+                                        // navigate to word detail page
+                                        Get.toNamed(
+                                          AppRoutes.wordDetail,
+                                          arguments: item.id,
+                                        );
                                       },
-                                      child: AdvicesCard(
+                                      child: RecommendationCard(
                                         textAceh: item.aceh,
-                                        textIndonesia: item.indonesia,
+                                        similiarity:
+                                            item.similiarity.toStringAsFixed(2),
                                       ),
                                     )
                                 ],

@@ -2,29 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unicons/unicons.dart';
 
-class AdvicesCard extends StatelessWidget {
-  const AdvicesCard({Key? key, this.textAceh, this.textIndonesia})
+class RecommendationCard extends StatelessWidget {
+  const RecommendationCard({Key? key, this.textAceh, this.similiarity})
       : super(key: key);
   final String? textAceh;
-  final String? textIndonesia;
+  final String? similiarity;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
-        color: const Color(0xffF7F8F9),
+        color: const Color(0xffFFFFFF),
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            offset: const Offset(12, 26),
-            blurRadius: 50,
-            spreadRadius: 0,
-            color: Colors.grey.withOpacity(.1),
-          ),
-        ],
+        // boxShadow: [
+        //   BoxShadow(
+        //     offset: const Offset(12, 26),
+        //     blurRadius: 50,
+        //     spreadRadius: 0,
+        //     color: Colors.grey.withOpacity(.1),
+        //   ),
+        // ],
       ),
-      margin: const EdgeInsets.only(bottom: 8),
+      margin: const EdgeInsets.symmetric(vertical: 4),
       width: MediaQuery.of(context).size.width,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,23 +60,23 @@ class AdvicesCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 2),
+                const SizedBox(height: 6),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Expanded(
-                      child: Text(
-                        "$textIndonesia",
-                        style: GoogleFonts.poppins(
-                          color: const Color(0xff2F2E41),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
+                    // Expanded(
+                    //   child: Text(
+                    //     "$similiarity",
+                    //     style: GoogleFonts.poppins(
+                    //       color: const Color(0xff2F2E41),
+                    //       fontWeight: FontWeight.w500,
+                    //       fontSize: 16,
+                    //     ),
+                    //     overflow: TextOverflow.ellipsis,
+                    //   ),
+                    // ),
                     Text(
-                      "Indonesia",
+                      "Similiarity: $similiarity",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.poppins(
                         color: const Color(0xffB8C3DA),

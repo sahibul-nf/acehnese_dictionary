@@ -3,6 +3,7 @@ import 'package:acehnese_dictionary/app/utils/typography.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:unicons/unicons.dart';
 
 class WordCard extends StatelessWidget {
   const WordCard(
@@ -53,7 +54,7 @@ class WordCard extends StatelessWidget {
                       },
                     )
                   : const Icon(
-                      Icons.broken_image_rounded,
+                      UniconsLine.image_v,
                       color: AppColor.secondary,
                     ),
             ),

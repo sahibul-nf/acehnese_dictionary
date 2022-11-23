@@ -9,12 +9,16 @@ class ApiPath {
   static String getAllWords() => '/dictionaries';
   static String getWordDetail(int id) => '/dictionaries/$id';
   static String searchWord(String query) => '/search?q=$query';
+
+  // users
+  static String signUp() => '/users';
+  static String signIn() => '/users/sessions';
 }
 
 abstract class ApiResponseInterface {
   final int statusCode;
   final String message;
-  final dynamic errors;
+  final String? errors;
   final dynamic data;
 
   ApiResponseInterface({

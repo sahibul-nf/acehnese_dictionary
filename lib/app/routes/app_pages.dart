@@ -22,6 +22,6 @@ class AppPages {
 
     // auth routes
     GetPage(name: AppRoutes.signin, page: () => const SignInPage()),
-    GetPage(name: AppRoutes.signup, page: () => const SignUpPage()),
+    GetPage(name: AppRoutes.signup, page: () => SignUpPage()),
   ];
 }

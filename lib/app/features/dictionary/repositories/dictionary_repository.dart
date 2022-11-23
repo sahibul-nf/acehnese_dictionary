@@ -21,35 +21,27 @@ class DictionaryRepositoryImpl implements DictionaryRepository {
       );
     }
 
-    try {
-      final response =
-          await RestApiService.get(Api.baseUrl + ApiPath.getAllWords());
+    final response =
+        await RestApiService.get(Api.baseUrl + ApiPath.getAllWords());
 
-      final body = ApiResponse.fromJson(response.body);
+    final body = ApiResponse.fromJson(response.body);
 
-      if (response.statusCode != 200) {
-        return GetAllWordResponse(
-          message: body.meta.message,
-          statusCode: response.statusCode,
-          errors: body.errors.toString(),
-          data: null,
-        );
-      }
-
-      final data = GetAllWordsModel.fromJson(body.data);
-
+    if (response.statusCode != 200) {
       return GetAllWordResponse(
         message: body.meta.message,
         statusCode: response.statusCode,
-        data: data,
-      );
-    } catch (e) {
-      return GetAllWordResponse(
-        message: e.toString(),
-        statusCode: 500,
-        errors: e.toString(),
+        errors: body.errors.toString(),
+        data: null,
       );
     }
+
+    final data = GetAllWordsModel.fromJson(body.data);
+
+    return GetAllWordResponse(
+      message: body.meta.message,
+      statusCode: response.statusCode,
+      data: data,
+    );
   }
 
   @override

@@ -20,37 +20,29 @@ class SearchRepositoryImpl implements SearchRepository {
       );
     }
 
-    try {
-      final response =
-          await RestApiService.get(Api.baseUrl + ApiPath.searchWord(query));
+    final response =
+        await RestApiService.get(Api.baseUrl + ApiPath.searchWord(query));
 
-      final body = ApiResponse.fromJson(response.body);
+    final body = ApiResponse.fromJson(response.body);
 
-      if (response.statusCode != 200) {
-        return SearchResponse(
-          message: body.meta.message,
-          statusCode: response.statusCode,
-          errors: body.errors.toString(),
-          data: null,
-        );
-      }
-
-      final data = body.data
-          .map<RecommendationWordModel>(
-              (e) => RecommendationWordModel.fromJson(e))
-          .toList();
-
+    if (response.statusCode != 200) {
       return SearchResponse(
         message: body.meta.message,
         statusCode: response.statusCode,
-        data: data,
-      );
-    } catch (e) {
-      return SearchResponse(
-        message: e.toString(),
-        statusCode: 204,
-        errors: e.toString(),
+        errors: body.errors.toString(),
+        data: null,
       );
     }
+
+    final data = body.data
+        .map<RecommendationWordModel>(
+            (e) => RecommendationWordModel.fromJson(e))
+        .toList();
+
+    return SearchResponse(
+      message: body.meta.message,
+      statusCode: response.statusCode,
+      data: data,
+    );
   }
 }

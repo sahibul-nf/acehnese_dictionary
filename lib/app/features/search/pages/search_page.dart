@@ -1,4 +1,3 @@
-import 'package:acehnese_dictionary/app/features/dictionary/pages/word_detail_page.dart';
 import 'package:acehnese_dictionary/app/features/search/controllers/search_controller.dart';
 import 'package:acehnese_dictionary/app/utils/color.dart';
 import 'package:acehnese_dictionary/app/utils/typography.dart';

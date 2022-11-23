@@ -48,7 +48,7 @@ class SearchRepositoryImpl implements SearchRepository {
     } catch (e) {
       return SearchResponse(
         message: e.toString(),
-        statusCode: 500,
+        statusCode: 204,
         errors: e.toString(),
       );
     }

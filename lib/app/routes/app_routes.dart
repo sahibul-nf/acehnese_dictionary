@@ -2,8 +2,10 @@ abstract class AppRoutes {
   static const String splaceScreen = '/';
   static const String wordDetail = '/word-detail';
 
-  static const String login = '/login';
-  static const String register = '/register';
+  // auth routes
+  static const String signin = '/auth/signin';
+  static const String signup = '/auth/signup';
+
   static const String forgotPassword = '/forgot-password';
   static const String resetPassword = '/reset-password';
   static const String profile = '/profile';

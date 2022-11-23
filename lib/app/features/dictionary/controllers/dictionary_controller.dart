@@ -39,9 +39,10 @@ class DictionaryController extends GetxController {
       _isError.value = response.statusCode != 200;
 
       Get.snackbar("Opps, an error occured", response.message);
+    } else {
+      _wordList.assignAll(response.data!.words);
     }
 
-    _wordList.assignAll(response.data!.words);
     _isLoadWordList.value = false;
   }
 
@@ -54,9 +55,10 @@ class DictionaryController extends GetxController {
       _isError.value = response.statusCode != 200;
 
       Get.snackbar("Opps, an error occured", response.message);
+    } else {
+      _wordDetail.value = response.data!;
     }
 
-    _wordDetail.value = response.data!;
     _isLoadWordDetail.value = false;
   }
 }

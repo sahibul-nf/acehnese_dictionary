@@ -15,22 +15,22 @@ class SearchController extends GetxController {
   List<RecommendationWordModel> get recommendations => _recommendations;
   void resetRecommendations() => _recommendations.clear();
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
   void search(String query) async {
     _isLoading.value = true;
     final response = await _searchRepositoryImpl.search(query);
 
-    if (response.statusCode != 200) {
+    if (response.statusCode == 204) {
+      _recommendations.clear();
+
+      Get.snackbar("Opps", "No data found");
+    } else if (response.statusCode != 200) {
       _isError.value = response.statusCode != 200;
 
       Get.snackbar("Opps, an error occured", response.message);
+    } else {
+      _recommendations.assignAll(response.data!);
     }
 
-    _recommendations.assignAll(response.data!);
     _isLoading.value = false;
   }
 }

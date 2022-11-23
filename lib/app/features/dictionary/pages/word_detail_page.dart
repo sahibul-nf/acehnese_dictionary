@@ -1,4 +1,6 @@
 import 'package:acehnese_dictionary/app/features/dictionary/controllers/dictionary_controller.dart';
+import 'package:acehnese_dictionary/app/routes/app_routes.dart';
+import 'package:acehnese_dictionary/app/widgets/app_back_button.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,29 +34,53 @@ class WordDetailPage extends GetView<DictionaryController> {
                         size: 30,
                       ),
                     )
-                  : PageView.builder(
-                      controller: controller.pageController,
-                      itemCount: controller.wordDetail.imagesUrl?.length ?? 0,
-                      itemBuilder: (context, index) {
-                        return CachedNetworkImage(
-                          imageUrl: controller.wordDetail.imagesUrl![index],
-                          fit: BoxFit.cover,
-                          height: double.infinity,
-                          width: double.infinity,
-                          placeholder: (context, url) {
-                            return Center(
-                              child: LoadingAnimationWidget.threeArchedCircle(
-                                color: AppColor.primary,
-                                size: 20,
+                  : (controller.isError)
+                      ? Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                UniconsLine.exclamation_triangle,
+                                size: 50,
+                                color: AppColor.secondary,
                               ),
+                              const SizedBox(height: 10),
+                              Text(
+                                'No Data Found',
+                                style: GoogleFonts.poppins(
+                                  color: AppColor.secondary,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : PageView.builder(
+                          controller: controller.pageController,
+                          itemCount:
+                              controller.wordDetail.imagesUrl?.length ?? 0,
+                          itemBuilder: (context, index) {
+                            return CachedNetworkImage(
+                              imageUrl: controller.wordDetail.imagesUrl![index],
+                              fit: BoxFit.cover,
+                              height: double.infinity,
+                              width: double.infinity,
+                              placeholder: (context, url) {
+                                return Center(
+                                  child:
+                                      LoadingAnimationWidget.threeArchedCircle(
+                                    color: AppColor.primary,
+                                    size: 20,
+                                  ),
+                                );
+                              },
+                              errorWidget: (context, url, error) {
+                                return const Icon(Icons.broken_image_rounded);
+                              },
                             );
                           },
-                          errorWidget: (context, url, error) {
-                            return const Icon(Icons.broken_image_rounded);
-                          },
                         );
-                      },
-                    );
             },
           ),
           Align(
@@ -65,7 +91,7 @@ class WordDetailPage extends GetView<DictionaryController> {
                 Obx(
                   () => SmoothPageIndicator(
                     controller: controller.pageController,
-                    count: controller.wordDetail.imagesUrl?.length ?? 0,
+                    count: controller.wordDetail.imagesUrl?.length ?? 1,
                     effect: const ExpandingDotsEffect(
                       dotHeight: 8,
                       dotWidth: 8,
@@ -95,19 +121,59 @@ class WordDetailPage extends GetView<DictionaryController> {
                           final word = controller.wordDetail;
                           return (controller.isLoadWordDetail)
                               ? const _WordDetailOnLoading()
-                              : Expanded(
-                                  child: _Word(
-                                    primaryText: word.aceh!,
-                                    secondaryText: word.indonesia!,
-                                    primaryLanguage: "Aceh",
-                                    secondaryLanguage: "Indonesia",
-                                  ),
-                                );
+                              : (controller.isError)
+                                  ? const SizedBox(
+                                      height: 100,
+                                      child: Center(
+                                        child: Text(
+                                          "No data found",
+                                          style: TextStyle(
+                                            color: Colors.red,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : Expanded(
+                                      child: _Word(
+                                        primaryText: word.aceh!,
+                                        secondaryText: word.indonesia!,
+                                        primaryLanguage: "Aceh",
+                                        secondaryLanguage: "Indonesia",
+                                      ),
+                                    );
                         },
                       ),
                       IconButton(
                         onPressed: () {
                           // TODO: add to favorite
+
+                          // if not login yet then show dialog
+                          Get.dialog(
+                            AlertDialog(
+                              title: const Text("Opps!"),
+                              content: const Text(
+                                "You must login first to bookmark this word. Do you want to login now?",
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                  child: const Text("Tutup"),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Get.back();
+                                    Get.toNamed(AppRoutes.signin);
+                                  },
+                                  child: const Text("Login"),
+                                ),
+                              ],
+                            ),
+                          );
+
+                          // if login add to favorite
                         },
                         icon: const Icon(
                           UniconsLine.bookmark,
@@ -119,20 +185,7 @@ class WordDetailPage extends GetView<DictionaryController> {
               ],
             ),
           ),
-          SafeArea(
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 24),
-              height: 50,
-              width: 50,
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.9),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: const BackButton(
-                color: AppColor.black,
-              ),
-            ),
-          ),
+          const SafeArea(child: AppBackButton()),
         ],
       ),
     );

@@ -21,7 +21,7 @@ class AppPages {
     GetPage(name: AppRoutes.wordDetail, page: () => WordDetailPage()),
 
     // auth routes
-    GetPage(name: AppRoutes.signin, page: () => const SignInPage()),
+    GetPage(name: AppRoutes.signin, page: () => SignInPage()),
     GetPage(name: AppRoutes.signup, page: () => SignUpPage()),
   ];
 }

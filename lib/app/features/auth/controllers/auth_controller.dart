@@ -1,7 +1,9 @@
 import 'package:acehnese_dictionary/app/routes/app_routes.dart';
+import 'package:acehnese_dictionary/app/utils/services/local_storage_service.dart';
 import 'package:acehnese_dictionary/app/utils/state_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../models/auth_model.dart';
 import '../respositories/auth_repository.dart';
@@ -24,22 +26,6 @@ class AuthController extends GetxController {
   void onInit() {
     super.onInit();
   }
-
-  // Login
-  // Future<void> login(String email, String password) async {
-  //   _isLoadAuth.value = true;
-  //   final response = await _authRepositoryImpl.login(email, password);
-
-  //   if (response.statusCode != 200) {
-  //     _isError.value = response.statusCode != 200;
-
-  //     Get.snackbar("Opps, an error occured", response.message);
-  //   } else {
-  //     _authModel.value = response.data!;
-  //   }
-
-  //   _isLoadAuth.value = false;
-  // }
 
   // Register
   final nameController = TextEditingController();
@@ -64,6 +50,33 @@ class AuthController extends GetxController {
       _authModel.value = response.data!;
       _requestState.value = RequestState.Loaded;
       Get.offAndToNamed(AppRoutes.signin);
+    }
+  }
+
+  // Login
+  final emailLoginController = TextEditingController();
+  final passwordLoginController = TextEditingController();
+  Future<void> signIn({
+    required String email,
+    required String password,
+  }) async {
+    _requestState.value = RequestState.Loading;
+    final response = await _authRepositoryImpl.signIn(
+      email: email,
+      password: password,
+    );
+
+    if (response.statusCode != 200) {
+      _requestState.value = RequestState.Error;
+      Get.snackbar("Opps, an error occured", response.message);
+    } else {
+      _authModel.value = response.data!;
+      _requestState.value = RequestState.Loaded;
+
+      // Save token to local storage
+      LocalStorageService.saveToken(_authModel.value.token!);
+
+      Get.offAndToNamed(AppRoutes.feat);
     }
   }
 

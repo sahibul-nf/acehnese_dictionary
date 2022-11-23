@@ -1,3 +1,4 @@
+import 'package:acehnese_dictionary/app/utils/services/local_storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:unicons/unicons.dart';
 
@@ -28,6 +29,18 @@ class ProfilePage extends StatelessWidget {
         ],
         elevation: 0,
         backgroundColor: Colors.white,
+      ),
+      // show user token in body
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Text(
+            "Token: ${LocalStorageService.getToken() ?? 'No token'}",
+            style: AppTypography.fontStyle(
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ),
       ),
     );
   }

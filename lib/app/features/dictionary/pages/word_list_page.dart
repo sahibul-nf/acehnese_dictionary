@@ -72,8 +72,11 @@ class WordListPage extends StatelessWidget {
               }),
               Obx(() {
                 return dictionaryController.isLoadWordList
-                    ? const Center(
-                        child: CircularProgressIndicator(),
+                    ? Center(
+                        child: LoadingAnimationWidget.threeArchedCircle(
+                          color: AppColor.primary,
+                          size: 30,
+                        ),
                       )
                     : WordListBuilder(
                         words: dictionaryController.wordList,
@@ -82,8 +85,11 @@ class WordListPage extends StatelessWidget {
               }),
               Obx(() {
                 return dictionaryController.isLoadWordList
-                    ? const Center(
-                        child: CircularProgressIndicator(),
+                    ? Center(
+                        child: LoadingAnimationWidget.threeArchedCircle(
+                          color: AppColor.primary,
+                          size: 30,
+                        ),
                       )
                     : WordListBuilder(
                         words: dictionaryController.wordList,

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:acehnese_dictionary/app/features/search/models/search_response.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
@@ -21,14 +23,29 @@ class SearchRepositoryImpl implements SearchRepository {
     }
 
     final response =
-        await RestApiService.get(Api.baseUrl + ApiPath.searchWord(query));
+        await RestApiService().get(Api.baseUrl + ApiPath.searchWord(query));
 
-    final body = ApiResponse.fromJson(response.body);
+    if (response.statusCode == 204) {
+      return SearchResponse(
+        message: response.statusMessage!,
+        statusCode: response.statusCode!,
+        errors: null,
+        data: null,
+      );
+    }
+
+    final body = ApiResponse.fromJson(response.data);
+    // log body meta message with key 'message, code'
+    log(
+      'Code: ${body.meta.code}, Message: ${body.meta.message}',
+      name: 'getAllWords',
+      error: body.errors,
+    );
 
     if (response.statusCode != 200) {
       return SearchResponse(
         message: body.meta.message,
-        statusCode: response.statusCode,
+        statusCode: body.meta.code,
         errors: body.errors.toString(),
         data: null,
       );
@@ -41,7 +58,7 @@ class SearchRepositoryImpl implements SearchRepository {
 
     return SearchResponse(
       message: body.meta.message,
-      statusCode: response.statusCode,
+      statusCode: response.statusCode!,
       data: data,
     );
   }

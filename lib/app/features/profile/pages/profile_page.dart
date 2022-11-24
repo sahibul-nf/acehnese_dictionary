@@ -34,11 +34,25 @@ class ProfilePage extends StatelessWidget {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Text(
-            "Token: ${LocalStorageService.getToken() ?? 'No token'}",
-            style: AppTypography.fontStyle(
-              fontWeight: FontWeight.w400,
-            ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Token: ${LocalStorageService.getToken() ?? 'No token'}",
+                style: AppTypography.fontStyle(
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              const SizedBox(height: 16),
+              // logout button
+              if (LocalStorageService.getToken() != null)
+                ElevatedButton(
+                  onPressed: () {
+                    LocalStorageService.deleteToken();
+                  },
+                  child: const Text('Logout'),
+                ),
+            ],
           ),
         ),
       ),

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class Api {
   static String baseUrl = 'https://aceh-dictionary.herokuapp.com/api/v1';
   static ApiPath path = ApiPath();
@@ -13,6 +11,10 @@ class ApiPath {
   // users
   static String signUp() => '/users';
   static String signIn() => '/users/sessions';
+  static String getUserInfo() => '/users';
+
+  // bookmarks
+  static String getMarkedWord() => '/bookmark';
 }
 
 abstract class ApiResponseInterface {
@@ -40,19 +42,14 @@ class ApiResponse {
   final dynamic errors;
   final dynamic data;
 
-  factory ApiResponse.fromJson(String str) =>
-      ApiResponse.fromMap(json.decode(str));
-
-  String toJson() => json.encode(toMap());
-
-  factory ApiResponse.fromMap(Map<String, dynamic> json) => ApiResponse(
-        meta: Meta.fromMap(json["meta"]),
+  factory ApiResponse.fromJson(Map<String, dynamic> json) => ApiResponse(
+        meta: Meta.fromJson(json["meta"]),
         errors: json["errors"],
         data: json["data"],
       );
 
-  Map<String, dynamic> toMap() => {
-        "meta": meta.toMap(),
+  Map<String, dynamic> toJson() => {
+        "meta": meta.toJson(),
         "errors": errors,
         "data": data,
       };
@@ -69,17 +66,13 @@ class Meta {
   final int code;
   final String status;
 
-  factory Meta.fromJson(String str) => Meta.fromMap(json.decode(str));
-
-  String toJson() => json.encode(toMap());
-
-  factory Meta.fromMap(Map<String, dynamic> json) => Meta(
+  factory Meta.fromJson(Map<String, dynamic> json) => Meta(
         message: json["message"],
         code: json["code"],
         status: json["status"],
       );
 
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toJson() => {
         "message": message,
         "code": code,
         "status": status,

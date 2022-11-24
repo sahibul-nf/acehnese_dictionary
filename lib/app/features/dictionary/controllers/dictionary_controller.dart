@@ -1,6 +1,7 @@
 import 'package:acehnese_dictionary/app/features/dictionary/models/word.dart';
 import 'package:acehnese_dictionary/app/features/dictionary/models/word_detail.dart';
 import 'package:acehnese_dictionary/app/features/dictionary/repositories/dictionary_repository.dart';
+import 'package:acehnese_dictionary/app/utils/state_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -60,5 +61,16 @@ class DictionaryController extends GetxController {
     }
 
     _isLoadWordDetail.value = false;
+  }
+
+  // switch language
+  final _secondaryLanguage = SecondaryLanguage.Indonesia.obs;
+  SecondaryLanguage get secondaryLanguage => _secondaryLanguage.value;
+  void switchLanguage() {
+    if (_secondaryLanguage.value == SecondaryLanguage.Indonesia) {
+      _secondaryLanguage.value = SecondaryLanguage.English;
+    } else {
+      _secondaryLanguage.value = SecondaryLanguage.Indonesia;
+    }
   }
 }

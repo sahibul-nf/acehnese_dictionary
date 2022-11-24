@@ -12,4 +12,9 @@ class LocalStorageService {
   static String? getToken() {
     return _storage.read('token');
   }
+
+  // remove token from local storage with get_storage
+  static void deleteToken() {
+    _storage.remove('token');
+  }
 }

@@ -3,7 +3,6 @@ import 'package:acehnese_dictionary/app/utils/services/local_storage_service.dar
 import 'package:acehnese_dictionary/app/utils/state_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 import '../models/auth_model.dart';
 import '../respositories/auth_repository.dart';
@@ -80,8 +79,41 @@ class AuthController extends GetxController {
     }
   }
 
+  // Logout
+  Future<void> signOut() async {
+    // _requestState.value = RequestState.Loading;
+    // final response = await _authRepositoryImpl.signOut();
+
+    // if (response.statusCode != 200) {
+    //   _requestState.value = RequestState.Error;
+    //   Get.snackbar("Opps, an error occured", response.message);
+    // } else {
+    //   _requestState.value = RequestState.Loaded;
+    //   Get.offAndToNamed(AppRoutes.signin);
+    // }
+
+    // Delete token from local storage
+    LocalStorageService.deleteToken();
+  }
+
   // change obsecure text
   final _obsecureText = true.obs;
   bool get obsecureText => _obsecureText.value;
   void changeObsecureText() => _obsecureText.value = !_obsecureText.value;
+
+  // check if user is logged in
+  bool checkIfUserIsLoggedIn() {
+    final token = LocalStorageService.getToken();
+    if (token != null) {
+      return true;
+    }
+    return false;
+  }
+
+  // timer for splash screen
+  void startTimer() {
+    Future.delayed(const Duration(seconds: 3), () {
+      Get.offNamed(AppRoutes.feat);
+    });
+  }
 }

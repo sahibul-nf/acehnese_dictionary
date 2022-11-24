@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:acehnese_dictionary/app/constants/api.dart';
 import 'package:acehnese_dictionary/app/features/dictionary/models/dictionary_response.dart';
-import 'package:acehnese_dictionary/app/features/dictionary/models/get_all_words_model.dart';
 import 'package:acehnese_dictionary/app/features/dictionary/models/word_detail.dart';
 import 'package:acehnese_dictionary/app/utils/services/rest_api_service.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+
+import '../models/get_all_words_model.dart';
 
 abstract class DictionaryRepository {
   Future<GetAllWordResponse> getAllWords();
@@ -22,14 +25,20 @@ class DictionaryRepositoryImpl implements DictionaryRepository {
     }
 
     final response =
-        await RestApiService.get(Api.baseUrl + ApiPath.getAllWords());
+        await RestApiService().get(Api.baseUrl + ApiPath.getAllWords());
 
-    final body = ApiResponse.fromJson(response.body);
+    final body = ApiResponse.fromJson(response.data);
+    // log body meta message with key 'message, code'
+    log(
+      'Code: ${body.meta.code}, Message: ${body.meta.message}',
+      name: 'getAllWords',
+      error: body.errors,
+    );
 
     if (response.statusCode != 200) {
       return GetAllWordResponse(
         message: body.meta.message,
-        statusCode: response.statusCode,
+        statusCode: response.statusCode!,
         errors: body.errors.toString(),
         data: null,
       );
@@ -39,7 +48,7 @@ class DictionaryRepositoryImpl implements DictionaryRepository {
 
     return GetAllWordResponse(
       message: body.meta.message,
-      statusCode: response.statusCode,
+      statusCode: response.statusCode!,
       data: data,
     );
   }
@@ -54,34 +63,32 @@ class DictionaryRepositoryImpl implements DictionaryRepository {
       );
     }
 
-    try {
-      final response =
-          await RestApiService.get(Api.baseUrl + ApiPath.getWordDetail(wordId));
+    final response =
+        await RestApiService().get(Api.baseUrl + ApiPath.getWordDetail(wordId));
 
-      final body = ApiResponse.fromJson(response.body);
+    final body = ApiResponse.fromJson(response.data);
+    // log body meta message with key 'message, code'
+    log(
+      'Code: ${body.meta.code}, Message: ${body.meta.message}',
+      name: 'getAllWords',
+      error: body.errors,
+    );
 
-      if (response.statusCode != 200) {
-        return GetWordDetailResponse(
-          message: body.meta.message,
-          statusCode: response.statusCode,
-          errors: body.errors.toString(),
-          data: null,
-        );
-      }
-
-      final data = WordDetail.fromJson(body.data);
-
+    if (response.statusCode != 200) {
       return GetWordDetailResponse(
         message: body.meta.message,
-        statusCode: response.statusCode,
-        data: data,
-      );
-    } catch (e) {
-      return GetWordDetailResponse(
-        message: e.toString(),
-        statusCode: 500,
-        errors: e.toString(),
+        statusCode: response.statusCode!,
+        errors: body.errors.toString(),
+        data: null,
       );
     }
+
+    final data = WordDetail.fromJson(body.data);
+
+    return GetWordDetailResponse(
+      message: body.meta.message,
+      statusCode: response.statusCode!,
+      data: data,
+    );
   }
 }

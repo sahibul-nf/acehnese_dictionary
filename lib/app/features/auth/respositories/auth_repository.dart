@@ -36,7 +36,7 @@ class AuthRepositoryImpl implements AuthRepository {
       );
     }
 
-    final response = await RestApiService.post(
+    final response = await RestApiService().post(
       Api.baseUrl + ApiPath.signUp(),
       body: jsonEncode(<String, String>{
         'name': name,
@@ -45,7 +45,8 @@ class AuthRepositoryImpl implements AuthRepository {
       }),
     );
 
-    final body = ApiResponse.fromJson(response.body);
+    final json = jsonDecode(response.body);
+    final body = ApiResponse.fromJson(json);
 
     if (response.statusCode != 200) {
       return AuthResponse(
@@ -64,9 +65,10 @@ class AuthRepositoryImpl implements AuthRepository {
       data: data,
     );
   }
-  
+
   @override
-  Future<AuthResponse> signIn({required String email, required String password}) async {
+  Future<AuthResponse> signIn(
+      {required String email, required String password}) async {
     final connectifityResult = await Connectivity().checkConnectivity();
     if (connectifityResult == ConnectivityResult.none) {
       return AuthResponse(
@@ -75,7 +77,7 @@ class AuthRepositoryImpl implements AuthRepository {
       );
     }
 
-    final response = await RestApiService.post(
+    final response = await RestApiService().post(
       Api.baseUrl + ApiPath.signIn(),
       body: jsonEncode(<String, String>{
         'email': email,
@@ -83,7 +85,8 @@ class AuthRepositoryImpl implements AuthRepository {
       }),
     );
 
-    final body = ApiResponse.fromJson(response.body);
+    final json = jsonDecode(response.body);
+    final body = ApiResponse.fromJson(json);
 
     if (response.statusCode != 200) {
       return AuthResponse(

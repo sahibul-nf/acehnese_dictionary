@@ -1,5 +1,7 @@
+import 'package:acehnese_dictionary/app/features/bookmark/controllers/bookmark_controller.dart';
 import 'package:acehnese_dictionary/app/features/dictionary/controllers/dictionary_controller.dart';
 import 'package:acehnese_dictionary/app/routes/app_routes.dart';
+import 'package:acehnese_dictionary/app/utils/state_enum.dart';
 import 'package:acehnese_dictionary/app/widgets/app_back_button.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -10,16 +12,22 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:unicons/unicons.dart';
 
 import '../../../utils/color.dart';
+import '../../auth/controllers/auth_controller.dart';
 
 class WordDetailPage extends GetView<DictionaryController> {
   WordDetailPage({Key? key}) : super(key: key);
 
   final int wordId = Get.arguments;
+  final _bookmarkController = Get.put(BookmarkController());
+  final _authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
     // fetch word detail
     controller.fetchWordDetail(wordId);
+    if (_authController.checkIfUserIsLoggedIn()) {
+      _bookmarkController.getMarkedWord(wordId);
+    }
 
     return Scaffold(
       body: Stack(
@@ -119,65 +127,107 @@ class WordDetailPage extends GetView<DictionaryController> {
                       Obx(
                         () {
                           final word = controller.wordDetail;
-                          return (controller.isLoadWordDetail)
-                              ? const _WordDetailOnLoading()
-                              : (controller.isError)
-                                  ? const SizedBox(
-                                      height: 100,
-                                      child: Center(
-                                        child: Text(
-                                          "No data found",
-                                          style: TextStyle(
-                                            color: Colors.red,
-                                            fontSize: 16,
-                                          ),
+                          if (controller.isLoadWordDetail) {
+                            return const _WordDetailOnLoading();
+                          } else {
+                            return (controller.isError)
+                                ? const SizedBox(
+                                    height: 100,
+                                    child: Center(
+                                      child: Text(
+                                        "No data found",
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 16,
                                         ),
                                       ),
-                                    )
-                                  : Expanded(
-                                      child: _Word(
-                                        primaryText: word.aceh!,
-                                        secondaryText: word.indonesia!,
-                                        primaryLanguage: "Aceh",
-                                        secondaryLanguage: "Indonesia",
-                                      ),
-                                    );
+                                    ),
+                                  )
+                                : Expanded(
+                                    child: _Word(
+                                      primaryText: word.aceh!,
+                                      secondaryText:
+                                          controller.secondaryLanguage ==
+                                                  SecondaryLanguage.Indonesia
+                                              ? word.indonesia!
+                                              : word.english!,
+                                      primaryLanguage: "Aceh",
+                                      secondaryLanguage:
+                                          controller.secondaryLanguage ==
+                                                  SecondaryLanguage.Indonesia
+                                              ? "Indonesia"
+                                              : "English",
+                                      onPressed: () =>
+                                          controller.switchLanguage(),
+                                    ),
+                                  );
+                          }
                         },
                       ),
-                      IconButton(
-                        onPressed: () {
-                          // TODO: add to favorite
-
-                          // if not login yet then show dialog
-                          Get.dialog(
-                            AlertDialog(
-                              title: const Text("Opps!"),
-                              content: const Text(
-                                "You must login first to bookmark this word. Do you want to login now?",
+                      Obx(
+                        () {
+                          if (controller.isLoadWordDetail &&
+                              _bookmarkController.requestState ==
+                                  RequestState.Loading) {
+                            return Container(
+                              height: 20,
+                              width: 20,
+                              padding: const EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(8),
                               ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Get.back();
-                                  },
-                                  child: const Text("Tutup"),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Get.back();
-                                    Get.toNamed(AppRoutes.signin);
-                                  },
-                                  child: const Text("Login"),
-                                ),
-                              ],
-                            ),
-                          );
+                            );
+                          }
 
-                          // if login add to favorite
+                          return IconButton(
+                            onPressed: () {
+                              // if not login yet then show dialog
+                              if (_authController.checkIfUserIsLoggedIn() ==
+                                  false) {
+                                Get.dialog(
+                                  AlertDialog(
+                                    title: const Text("Opps!"),
+                                    content: const Text(
+                                      "You must login first to bookmark this word. Do you want to login now?",
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Get.back();
+                                        },
+                                        child: const Text("Tutup"),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Get.back();
+                                          Get.toNamed(AppRoutes.signin);
+                                        },
+                                        child: const Text("Login"),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              } else {
+                                print("bookmark");
+                                // if already login then bookmark
+                                // _bookmarkController.bookmarkWord(
+                                //   wordId: wordId,
+                                //   word: controller.wordDetail.aceh!,
+                                // );
+                              }
+                            },
+                            icon: _bookmarkController.bookmark.id != null
+                                ? const Icon(
+                                    UniconsSolid.bookmark,
+                                    color: AppColor.primary,
+                                  )
+                                : const Icon(
+                                    UniconsLine.bookmark,
+                                    color: AppColor.black,
+                                  ),
+                          );
                         },
-                        icon: const Icon(
-                          UniconsLine.bookmark,
-                        ),
                       )
                     ],
                   ),
@@ -199,11 +249,13 @@ class _Word extends StatelessWidget {
     required this.secondaryText,
     required this.primaryLanguage,
     required this.secondaryLanguage,
+    required this.onPressed,
   }) : super(key: key);
   final String primaryText;
   final String primaryLanguage;
   final String secondaryText;
   final String secondaryLanguage;
+  final Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -227,12 +279,25 @@ class _Word extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20),
-        Text(
-          secondaryLanguage,
-          style: GoogleFonts.poppins(
-            color: AppColor.secondary,
-            fontSize: 14,
-          ),
+        Row(
+          children: [
+            Text(
+              secondaryLanguage,
+              style: GoogleFonts.poppins(
+                color: AppColor.secondary,
+                fontSize: 14,
+              ),
+            ),
+            // switch language
+            const SizedBox(width: 8),
+            IconButton(
+              onPressed: onPressed,
+              icon: const Icon(
+                UniconsLine.exchange,
+                color: AppColor.black,
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: 4),
         Text(
@@ -265,7 +330,7 @@ class _WordDetailOnLoading extends StatelessWidget {
       ),
       const SizedBox(height: 10),
       Container(
-        height: 24,
+        height: 30,
         width: 200,
         decoration: BoxDecoration(
           color: Colors.grey[200],
@@ -283,7 +348,7 @@ class _WordDetailOnLoading extends StatelessWidget {
       ),
       const SizedBox(height: 10),
       Container(
-        height: 24,
+        height: 30,
         width: 200,
         decoration: BoxDecoration(
           color: Colors.grey[200],

@@ -1,8 +1,8 @@
 import 'package:acehnese_dictionary/app/utils/services/local_storage_service.dart';
 import 'package:flutter/material.dart';
-import 'package:unicons/unicons.dart';
+import 'package:get/route_manager.dart';
 
-import '../../../utils/color.dart';
+import '../../../routes/app_routes.dart';
 import '../../../utils/typography.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -19,14 +19,14 @@ class ProfilePage extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(UniconsLine.trash),
-            color: AppColor.black,
-          ),
-          const SizedBox(width: 12),
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {},
+        //     icon: const Icon(UniconsLine.trash),
+        //     color: AppColor.black,
+        //   ),
+        //   const SizedBox(width: 12),
+        // ],
         elevation: 0,
         backgroundColor: Colors.white,
       ),
@@ -49,6 +49,7 @@ class ProfilePage extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     LocalStorageService.deleteToken();
+                    Get.toNamed(AppRoutes.signin);
                   },
                   child: const Text('Logout'),
                 ),

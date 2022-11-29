@@ -1,6 +1,5 @@
 class Api {
   static String baseUrl = 'https://aceh-dictionary.herokuapp.com/api/v1';
-  static ApiPath path = ApiPath();
 }
 
 class ApiPath {
@@ -14,6 +13,7 @@ class ApiPath {
   static String getUserInfo() => '/users';
 
   // bookmarks
+  static String getBookmarks() => '/bookmarks';
   static String getMarkedWord() => '/bookmark';
 }
 

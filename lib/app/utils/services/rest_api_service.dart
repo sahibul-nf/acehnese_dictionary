@@ -21,16 +21,31 @@ class RestApiService {
   Future<Response> get(String url,
       {Map<String, dynamic>? queryParameters,
       Map<String, dynamic>? headers}) async {
-    final response = await _dio.get(
-      url,
-      queryParameters: queryParameters,
-      options: Options(
-        headers: headers,
-      ),
-    );
-    log('GET: ${response.requestOptions.uri}');
-    log('Headers: ${response.requestOptions.headers}');
-    return response;
+    try {
+      final response = await _dio.get(
+        url,
+        queryParameters: queryParameters,
+        options: Options(
+          headers: headers,
+        ),
+      );
+
+      log("Request POST: ${response.requestOptions.uri}",
+          name: "RestApiService");
+      log("Request Headers: ${response.requestOptions.headers}",
+          name: "RestApiService");
+      log("Response: ${response.data['meta']['message']}",
+          name: "RestApiService", time: DateTime.now());
+
+      return response;
+    } on DioError catch (e) {
+      log("Request POST: ${e.response?.realUri}", name: "RestApiService");
+      log("Request Headers: ${e.response?.headers}", name: "RestApiService");
+      log("Response: ${e.response?.data['meta']['message']}",
+          name: "RestApiService", time: DateTime.now());
+
+      throw Exception([e.response?.statusCode, e.response?.data['errors']]);
+    }
   }
 
   // static Future<http.Response> get(String url,

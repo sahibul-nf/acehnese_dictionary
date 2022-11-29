@@ -28,11 +28,11 @@ class DictionaryController extends GetxController {
   void onInit() {
     super.onInit();
 
-    _fetchDictionary();
+    fetchDictionary();
   }
 
   // Fetch all words from API
-  Future<void> _fetchDictionary() async {
+  Future<void> fetchDictionary() async {
     _isLoadWordList.value = true;
     final response = await _dictionaryRepositoryImpl.getAllWords();
 

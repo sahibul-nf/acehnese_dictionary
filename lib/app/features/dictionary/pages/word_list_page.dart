@@ -3,6 +3,7 @@ import 'package:acehnese_dictionary/app/features/dictionary/models/word.dart';
 import 'package:acehnese_dictionary/app/routes/app_routes.dart';
 import 'package:acehnese_dictionary/app/utils/color.dart';
 import 'package:acehnese_dictionary/app/utils/typography.dart';
+import 'package:acehnese_dictionary/app/widgets/words_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
@@ -59,12 +60,7 @@ class WordListPage extends StatelessWidget {
             children: [
               Obx(() {
                 return dictionaryController.isLoadWordList
-                    ? Center(
-                        child: LoadingAnimationWidget.threeArchedCircle(
-                          color: AppColor.primary,
-                          size: 30,
-                        ),
-                      )
+                    ? const WordsLoading()
                     : WordListBuilder(
                         words: dictionaryController.wordList,
                         language: "Aceh",
@@ -121,33 +117,37 @@ class WordListBuilder extends StatelessWidget {
       words.sort((a, b) => a.english!.compareTo(b.english!));
     }
 
-    return ListView.builder(
-      padding: const EdgeInsets.symmetric(vertical: 15),
-      itemCount: words.length,
-      itemBuilder: (context, index) {
-        var word = "";
-        if (language == "Aceh") {
-          word = words[index].aceh;
-        } else if (language == "Indonesia") {
-          word = words[index].indonesia!;
-        } else if (language == "English") {
-          word = words[index].english!;
-        }
+    return RefreshIndicator(
+      color: AppColor.primary,
+      onRefresh: () async => Get.find<DictionaryController>().fetchDictionary(),
+      child: ListView.builder(
+        padding: const EdgeInsets.symmetric(vertical: 15),
+        itemCount: words.length,
+        itemBuilder: (context, index) {
+          var word = "";
+          if (language == "Aceh") {
+            word = words[index].aceh;
+          } else if (language == "Indonesia") {
+            word = words[index].indonesia!;
+          } else if (language == "English") {
+            word = words[index].english!;
+          }
 
-        return InkWell(
-          onTap: () {
-            Get.toNamed(
-              AppRoutes.wordDetail,
-              arguments: words[index].id,
-            );
-          },
-          child: WordCard(
-            word: word,
-            language: language,
-            imageUrl: words[index].imageUrl,
-          ),
-        );
-      },
+          return InkWell(
+            onTap: () {
+              Get.toNamed(
+                AppRoutes.wordDetail,
+                arguments: words[index].id,
+              );
+            },
+            child: WordCard(
+              word: word,
+              language: language,
+              imageUrl: words[index].imageUrl,
+            ),
+          );
+        },
+      ),
     );
   }
 }

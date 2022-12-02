@@ -16,6 +16,7 @@ abstract class BookmarkRepository {
   Future<GetMarkedWordResponse> getMarkedWord(int dictionaryId);
   Future<Either<Failure, List<Bookmarks>>> getBookmarks();
   Future<Either<Failure, Bookmark>> addWordToBookmark(int dictionaryId);
+  Future<Either<Failure, bool>> removeAllBookmark();
 }
 
 class BookmarkRepositoryImpl implements BookmarkRepository {
@@ -129,6 +130,28 @@ class BookmarkRepositoryImpl implements BookmarkRepository {
       }
 
       return Right(bookmark);
+    } on Exception catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> removeAllBookmark() async {
+    final connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      return Left(ConnectionFailure('No Internet Connection'));
+    }
+
+    try {
+      final response = await RestApiService().delete(
+        Api.baseUrl + ApiPath.removeAllBookmark(),
+      );
+
+      if (response.statusCode != 200) {
+        return Left(ServerFailure(response.data['errors']));
+      }
+
+      return const Right(true);
     } on Exception catch (e) {
       return Left(ServerFailure(e.toString()));
     }

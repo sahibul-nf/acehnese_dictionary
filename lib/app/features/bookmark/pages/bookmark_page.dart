@@ -38,11 +38,21 @@ class BookmarkPage extends StatelessWidget {
         ),
         centerTitle: true,
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(UniconsLine.trash),
-            color: AppColor.black,
-          ),
+          Obx(() {
+            if (authController.authState == AuthState.login) {
+              if (controller.requestState == RequestState.Loading) {
+                return const SizedBox();
+              } else {
+                return IconButton(
+                  onPressed: _deleteAllBookmark,
+                  icon: const Icon(UniconsLine.trash),
+                  color: AppColor.black,
+                );
+              }
+            }
+
+            return const SizedBox();
+          }),
           const SizedBox(width: 12),
         ],
         elevation: 0,
@@ -147,7 +157,12 @@ class BookmarkPage extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Get.back(),
-            child: const Text('Cancel'),
+            child: Text(
+              'Cancel',
+              style: AppTypography.fontStyle(
+                color: Colors.grey,
+              ),
+            ),
           ),
           TextButton(
             onPressed: () {
@@ -192,7 +207,84 @@ class BookmarkPage extends StatelessWidget {
                 });
               });
             },
-            child: const Text('Delete'),
+            child: Text(
+              'Delete',
+              style: AppTypography.fontStyle(
+                color: AppColor.error,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _deleteAllBookmark() {
+    final controller = Get.find<BookmarkController>();
+
+    Get.dialog(
+      AlertDialog(
+        title: const Text('Delete All Bookmark'),
+        content: const Text('Are you sure want to delete all bookmark?'),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: Text(
+              'Cancel',
+              style: AppTypography.fontStyle(
+                color: Colors.grey,
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Get.back();
+
+              // show loading dialog
+              Get.dialog(
+                Material(
+                  color: Colors.transparent,
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // text loading
+                        Text(
+                          'Wait a moment...',
+                          style: AppTypography.fontStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        LoadingAnimationWidget.prograssiveDots(
+                          size: 30,
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                barrierDismissible: false,
+              );
+
+              Future.delayed(const Duration(seconds: 1), () {
+                controller.removeAllBookmarks().then((value) {
+                  Get.back();
+
+                  if (value) {
+                    controller.fetchBookmarks();
+                  }
+                });
+              });
+            },
+            child: Text(
+              'Delete',
+              style: AppTypography.fontStyle(
+                color: AppColor.error,
+              ),
+            ),
           ),
         ],
       ),

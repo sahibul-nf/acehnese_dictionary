@@ -48,14 +48,6 @@ class RestApiService {
     }
   }
 
-  // post request with body and headers (optional) and return response
-  Future<http.Response> post(String url,
-      {Map<String, String>? headers, dynamic body}) async {
-    final response =
-        await _httpClient.post(Uri.parse(url), headers: headers, body: body);
-    return response;
-  }
-
   // post request with body and headers (optional) and return response with dio
   Future<Response> postDio(String url,
       {dynamic body, Map<String, dynamic>? headers}) async {
@@ -81,6 +73,35 @@ class RestApiService {
           name: "RestApiService", time: DateTime.now());
 
       throw Exception([e.response?.statusCode, e.response?.data['errors']]);
+    }
+  }
+
+  // DELETE request
+  Future<Response> delete(String path, {Map<String, dynamic>? headers}) async {
+    try {
+      final response = await _dio.delete(
+        path,
+        options: Options(headers: headers),
+      );
+
+      log("Request DELETE: ${response.requestOptions.uri}",
+          name: "RestApiService");
+      log("Request Headers: ${response.requestOptions.headers}",
+          name: "RestApiService");
+      log("Response: ${response.data['meta']['message']}",
+          name: "RestApiService", time: DateTime.now());
+
+      return response;
+    } on DioError catch (e) {
+      log("Request DELETE: ${e.response?.realUri}", name: "RestApiService");
+      log("Request Headers: ${e.response?.headers}", name: "RestApiService");
+      log("Response: ${e.response?.data['meta']['message']}",
+          name: "RestApiService", time: DateTime.now());
+
+      throw Exception(e.response?.data['errors']);
+    } catch (e) {
+      log("Request DELETE: ${e.toString()}", name: "RestApiService");
+      throw Exception(e.toString());
     }
   }
 }

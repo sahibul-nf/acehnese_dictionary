@@ -20,6 +20,7 @@ class ApiPath {
   static String getBookmarks() => '/bookmarks';
   static String getMarkedWord() => '/bookmark';
   static String addWordToBookmark() => '/bookmarks';
+  static String removeAllBookmark() => '/bookmarks';
 }
 
 abstract class ApiResponseInterface {

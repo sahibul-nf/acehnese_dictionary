@@ -79,6 +79,8 @@ class BookmarkController extends GetxController {
         backgroundColor: AppColor.error,
         colorText: Colors.white,
       );
+
+      return false;
     }
 
     _bookmark.value = result.fold((l) => Bookmark(), (r) => r);
@@ -108,5 +110,27 @@ class BookmarkController extends GetxController {
         _requestState.value = RequestState.Loaded;
       },
     );
+  }
+
+  // remove all bookmarks
+  Future<bool> removeAllBookmarks() async {
+    final result = await _bookmarkRepository.removeAllBookmark();
+
+    if (result.isLeft()) {
+      // show snackbar error message
+      Get.snackbar(
+        "Opps",
+        "Something went wrong",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: AppColor.error,
+        colorText: Colors.white,
+      );
+
+      return false;
+    }
+
+    _bookmarks.value = [];
+
+    return true;
   }
 }

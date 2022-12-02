@@ -1,6 +1,7 @@
 import 'package:acehnese_dictionary/app/features/bookmark/controllers/bookmark_controller.dart';
 import 'package:acehnese_dictionary/app/features/dictionary/controllers/dictionary_controller.dart';
 import 'package:acehnese_dictionary/app/utils/state_enum.dart';
+import 'package:acehnese_dictionary/app/utils/typography.dart';
 import 'package:acehnese_dictionary/app/widgets/app_back_button.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -224,14 +225,24 @@ class WordDetailPage extends GetView<DictionaryController> {
                                         onPressed: () {
                                           Get.back();
                                         },
-                                        child: const Text("Tutup"),
+                                        child: Text(
+                                          'Close',
+                                          style: AppTypography.fontStyle(
+                                            color: Colors.grey,
+                                          ),
+                                        ),
                                       ),
                                       TextButton(
                                         onPressed: () {
                                           Get.back();
                                           Get.toNamed(AppRoutes.signin);
                                         },
-                                        child: const Text("Login"),
+                                        child: Text(
+                                          'Login',
+                                          style: AppTypography.fontStyle(
+                                            color: AppColor.primary,
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),

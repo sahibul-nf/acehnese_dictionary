@@ -72,6 +72,39 @@ class SearchPage extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
+                    // selecting button for choosing algorithm type (jaro-winkler or levenshtein)
+                    Obx(
+                      () => Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Jaro-Winkler",
+                            style: AppTypography.fontStyle(
+                              fontSize: 14,
+                              color: AppColor.secondary,
+                            ),
+                          ),
+                          Switch(
+                            value: !controller.isJaroWinkler.value,
+                            onChanged: (v) {
+                              controller.isJaroWinkler.value = !v;
+                            },
+                            activeColor: AppColor.primary,
+                            activeTrackColor: AppColor.primary.withOpacity(0.2),
+                            inactiveThumbColor: AppColor.primary,
+                            inactiveTrackColor:
+                                AppColor.primary.withOpacity(0.2),
+                          ),
+                          Text(
+                            "Levenshtein",
+                            style: AppTypography.fontStyle(
+                              fontSize: 14,
+                              color: AppColor.secondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     // Obx(() {
                     //   return admobController.isBannerAdReady.value
                     //       ? SizedBox(

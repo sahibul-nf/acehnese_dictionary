@@ -10,12 +10,12 @@ import '../../../widgets/app_back_button.dart';
 import '../controllers/auth_controller.dart';
 
 class SignInPage extends StatelessWidget {
-  SignInPage({Key? key}) : super(key: key);
-
-  final _authController = Get.put(AuthController());
+  const SignInPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final _authController = Get.find<AuthController>();
+
     return Scaffold(
       body: Stack(
         children: [

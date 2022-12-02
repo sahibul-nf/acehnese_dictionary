@@ -28,11 +28,18 @@ class DictionaryController extends GetxController {
   void onInit() {
     super.onInit();
 
-    fetchDictionary();
+    fetchDictionaries();
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+
+    super.dispose();
   }
 
   // Fetch all words from API
-  Future<void> fetchDictionary() async {
+  Future<void> fetchDictionaries() async {
     _isLoadWordList.value = true;
     final response = await _dictionaryRepositoryImpl.getAllWords();
 

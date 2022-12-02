@@ -10,16 +10,21 @@ class WordCard extends StatelessWidget {
       {Key? key,
       required this.language,
       required this.word,
-      required this.imageUrl})
+      required this.imageUrl,
+      this.marginVertical,
+      this.marginHorizontal})
       : super(key: key);
   final String language;
   final String word;
   final String? imageUrl;
+  final double? marginVertical;
+  final double? marginHorizontal;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      margin: EdgeInsets.symmetric(
+          horizontal: marginHorizontal ?? 20, vertical: marginVertical ?? 5),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
         color: Colors.white,

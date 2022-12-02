@@ -11,15 +11,16 @@ import '../../../utils/services/rest_api_service.dart';
 import '../models/bookmark.dart';
 
 abstract class BookmarkRepository {
-  late RestApiService restApiService;
+  // late RestApiService restApiService;
 
   Future<GetMarkedWordResponse> getMarkedWord(int dictionaryId);
   Future<Either<Failure, List<Bookmarks>>> getBookmarks();
+  Future<Either<Failure, Bookmark>> addWordToBookmark(int dictionaryId);
 }
 
 class BookmarkRepositoryImpl implements BookmarkRepository {
-  @override
-  RestApiService restApiService = RestApiService();
+  // @override
+  // RestApiService restApiService = RestApiService();
 
   @override
   Future<GetMarkedWordResponse> getMarkedWord(int dictionaryId) async {
@@ -31,7 +32,7 @@ class BookmarkRepositoryImpl implements BookmarkRepository {
       );
     }
 
-    final response = await restApiService.get(
+    final response = await RestApiService().get(
       Api.baseUrl + ApiPath.getMarkedWord(),
       queryParameters: {
         'dictionary_id': dictionaryId,
@@ -80,7 +81,7 @@ class BookmarkRepositoryImpl implements BookmarkRepository {
     }
 
     try {
-      final response = await restApiService.get(
+      final response = await RestApiService().get(
         Api.baseUrl + ApiPath.getBookmarks(),
       );
 
@@ -98,6 +99,36 @@ class BookmarkRepositoryImpl implements BookmarkRepository {
       }
 
       return Right(bookmarks);
+    } on Exception catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Bookmark>> addWordToBookmark(int dictionaryId) async {
+    final connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      return Left(ConnectionFailure('No Internet Connection'));
+    }
+
+    try {
+      final response = await RestApiService().postDio(
+        Api.baseUrl + ApiPath.addWordToBookmark(),
+        body: {'dictionary_id': dictionaryId},
+      );
+
+      if (response.statusCode != 200) {
+        return Left(ServerFailure(response.data['errors']));
+      }
+
+      final data = response.data['data'];
+      Bookmark bookmark = Bookmark();
+
+      if (data != null) {
+        bookmark = Bookmark.fromJson(data);
+      }
+
+      return Right(bookmark);
     } on Exception catch (e) {
       return Left(ServerFailure(e.toString()));
     }

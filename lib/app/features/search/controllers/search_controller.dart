@@ -15,9 +15,20 @@ class SearchController extends GetxController {
   List<RecommendationWordModel> get recommendations => _recommendations;
   void resetRecommendations() => _recommendations.clear();
 
+  // jaro_winkler_distance (jwd), levenshtein_distance (lev
+  final isJaroWinkler = true.obs;
+
+  String algorithmType() {
+    if (isJaroWinkler.value) {
+      return 'jwd';
+    } else {
+      return 'lev';
+    }
+  }
+
   void search(String query) async {
     _isLoading.value = true;
-    final response = await _searchRepositoryImpl.search(query);
+    final response = await _searchRepositoryImpl.search(query, algorithmType());
 
     if (response.statusCode == 204) {
       _recommendations.clear();

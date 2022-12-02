@@ -60,7 +60,10 @@ class WordListPage extends StatelessWidget {
             children: [
               Obx(() {
                 return dictionaryController.isLoadWordList
-                    ? const WordsLoading()
+                    ? WordsLoading(
+                        onRefresh: () async =>
+                            dictionaryController.fetchDictionaries(),
+                      )
                     : WordListBuilder(
                         words: dictionaryController.wordList,
                         language: "Aceh",
@@ -119,7 +122,8 @@ class WordListBuilder extends StatelessWidget {
 
     return RefreshIndicator(
       color: AppColor.primary,
-      onRefresh: () async => Get.find<DictionaryController>().fetchDictionary(),
+      onRefresh: () async =>
+          Get.find<DictionaryController>().fetchDictionaries(),
       child: ListView.builder(
         padding: const EdgeInsets.symmetric(vertical: 15),
         itemCount: words.length,

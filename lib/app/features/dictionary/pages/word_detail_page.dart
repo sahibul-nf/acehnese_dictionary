@@ -1,16 +1,17 @@
 import 'package:acehnese_dictionary/app/features/bookmark/controllers/bookmark_controller.dart';
 import 'package:acehnese_dictionary/app/features/dictionary/controllers/dictionary_controller.dart';
-import 'package:acehnese_dictionary/app/routes/app_routes.dart';
 import 'package:acehnese_dictionary/app/utils/state_enum.dart';
 import 'package:acehnese_dictionary/app/widgets/app_back_button.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:like_button/like_button.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:unicons/unicons.dart';
 
+import '../../../routes/app_routes.dart';
 import '../../../utils/color.dart';
 import '../../auth/controllers/auth_controller.dart';
 
@@ -24,9 +25,13 @@ class WordDetailPage extends GetView<DictionaryController> {
   @override
   Widget build(BuildContext context) {
     // fetch word detail
+
     controller.fetchWordDetail(wordId);
     if (_authController.checkIfUserIsLoggedIn()) {
-      _bookmarkController.getMarkedWord(wordId);
+      Future.delayed(
+        Duration.zero,
+        () => _bookmarkController.getMarkedWord(wordId),
+      );
     }
 
     return Scaffold(
@@ -97,16 +102,18 @@ class WordDetailPage extends GetView<DictionaryController> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Obx(
-                  () => SmoothPageIndicator(
-                    controller: controller.pageController,
-                    count: controller.wordDetail.imagesUrl?.length ?? 1,
-                    effect: const ExpandingDotsEffect(
-                      dotHeight: 8,
-                      dotWidth: 8,
-                      activeDotColor: Colors.white,
-                      dotColor: Colors.grey,
-                    ),
-                  ),
+                  () => (controller.isLoadWordDetail)
+                      ? const SizedBox()
+                      : SmoothPageIndicator(
+                          controller: controller.pageController,
+                          count: controller.wordDetail.imagesUrl?.length ?? 1,
+                          effect: const ExpandingDotsEffect(
+                            dotHeight: 8,
+                            dotWidth: 8,
+                            activeDotColor: Colors.white,
+                            dotColor: Colors.grey,
+                          ),
+                        ),
                 ),
                 const SizedBox(height: 30),
                 Container(
@@ -180,9 +187,30 @@ class WordDetailPage extends GetView<DictionaryController> {
                             );
                           }
 
-                          return IconButton(
-                            onPressed: () {
-                              // if not login yet then show dialog
+                          return LikeButton(
+                            isLiked: _bookmarkController.isBookmarked(wordId),
+                            likeBuilder: (bool isLiked) {
+                              return Icon(
+                                isLiked
+                                    ? UniconsSolid.bookmark
+                                    : UniconsLine.bookmark,
+                                color:
+                                    isLiked ? AppColor.primary : AppColor.black,
+                              );
+                            },
+                            circleColor: CircleColor(
+                              start: Colors.white,
+                              end: !Get.isDarkMode
+                                  ? AppColor.primary
+                                  : AppColor.secondary,
+                            ),
+                            bubblesColor: BubblesColor(
+                              dotPrimaryColor: !Get.isDarkMode
+                                  ? AppColor.primary
+                                  : AppColor.secondary,
+                              dotSecondaryColor: Colors.white,
+                            ),
+                            onTap: (isLiked) async {
                               if (_authController.checkIfUserIsLoggedIn() ==
                                   false) {
                                 Get.dialog(
@@ -208,24 +236,14 @@ class WordDetailPage extends GetView<DictionaryController> {
                                     ],
                                   ),
                                 );
+
+                                return false;
                               } else {
-                                print("bookmark");
-                                // if already login then bookmark
-                                // _bookmarkController.bookmarkWord(
-                                //   wordId: wordId,
-                                //   word: controller.wordDetail.aceh!,
-                                // );
+                                final isMarked = await _bookmarkController
+                                    .addWordToBookmark(wordId);
+                                return isMarked;
                               }
                             },
-                            icon: _bookmarkController.bookmark.id != null
-                                ? const Icon(
-                                    UniconsSolid.bookmark,
-                                    color: AppColor.primary,
-                                  )
-                                : const Icon(
-                                    UniconsLine.bookmark,
-                                    color: AppColor.black,
-                                  ),
                           );
                         },
                       )

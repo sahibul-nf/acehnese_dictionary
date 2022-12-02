@@ -1,20 +1,25 @@
 class Api {
-  static String baseUrl = 'https://aceh-dictionary.herokuapp.com/api/v1';
+  static String herokuBaseUrl = 'https://aceh-dictionary.herokuapp.com/api/v1';
+  static String railwayBaseUrl =
+      'https://web-production-2a5f.up.railway.app/api/v1';
+  static String baseUrl = railwayBaseUrl;
 }
 
 class ApiPath {
   static String getAllWords() => '/dictionaries';
   static String getWordDetail(int id) => '/dictionaries/$id';
-  static String searchWord(String query) => '/search?q=$query';
+  static String searchWord(String query, String algorithm) =>
+      '/search?q=$query&algorithm=$algorithm';
 
   // users
   static String signUp() => '/users';
   static String signIn() => '/users/sessions';
-  static String getUserInfo() => '/users';
+  static String authCheck() => '/users';
 
   // bookmarks
   static String getBookmarks() => '/bookmarks';
   static String getMarkedWord() => '/bookmark';
+  static String addWordToBookmark() => '/bookmarks';
 }
 
 abstract class ApiResponseInterface {

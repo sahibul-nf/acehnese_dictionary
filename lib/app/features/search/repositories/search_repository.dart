@@ -8,12 +8,12 @@ import '../../../utils/services/rest_api_service.dart';
 import '../models/get_recommendation_list_model.dart';
 
 abstract class SearchRepository {
-  Future<SearchResponse> search(String query);
+  Future<SearchResponse> search(String query, String algorithm);
 }
 
 class SearchRepositoryImpl implements SearchRepository {
   @override
-  Future<SearchResponse> search(String query) async {
+  Future<SearchResponse> search(String query, String algorithm) async {
     final connectifityResult = await Connectivity().checkConnectivity();
     if (connectifityResult == ConnectivityResult.none) {
       return SearchResponse(
@@ -22,8 +22,8 @@ class SearchRepositoryImpl implements SearchRepository {
       );
     }
 
-    final response =
-        await RestApiService().get(Api.baseUrl + ApiPath.searchWord(query));
+    final response = await RestApiService()
+        .get(Api.baseUrl + ApiPath.searchWord(query, algorithm));
 
     if (response.statusCode == 204) {
       return SearchResponse(

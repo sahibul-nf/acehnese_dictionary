@@ -1,5 +1,5 @@
 import 'package:acehnese_dictionary/app/features/bookmark/pages/bookmark_page.dart';
-import 'package:acehnese_dictionary/app/features/profile/pages/profile_page.dart';
+import 'package:acehnese_dictionary/app/features/user_profile/pages/profile_page.dart';
 import 'package:acehnese_dictionary/app/features/search/pages/search_page.dart';
 import 'package:acehnese_dictionary/app/utils/color.dart';
 import 'package:acehnese_dictionary/app/utils/typography.dart';

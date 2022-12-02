@@ -1,8 +1,6 @@
-import 'package:acehnese_dictionary/app/features/auth/controllers/auth_controller.dart';
 import 'package:acehnese_dictionary/app/utils/color.dart';
 import 'package:acehnese_dictionary/app/utils/typography.dart';
 import 'package:flutter/material.dart';
-import 'package:get/instance_manager.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class SplaceScreen extends StatelessWidget {
@@ -10,9 +8,6 @@ class SplaceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authController = Get.put(AuthController());
-    authController.startTimer();
-
     return Scaffold(
       body: Stack(
         children: [

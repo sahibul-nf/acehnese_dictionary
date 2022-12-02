@@ -11,15 +11,25 @@ class BookmarkController extends GetxController {
   final _bookmark = Bookmark().obs;
   final _requestState = RequestState.Idle.obs;
 
-  List<Bookmarks> get bookmarks => _bookmarks;
   Bookmark get bookmark => _bookmark.value;
   RequestState get requestState => _requestState.value;
 
-  @override
-  void onInit() {
-    super.onInit();
+  List<Bookmarks> get bookmarks => _bookmarks.reversed.toList();
+  void addBookmark(Bookmark bookmark) {
+    var bookmarks = Bookmarks();
+    bookmarks.id = bookmark.id;
+    bookmarks.userId = bookmark.userId;
+    bookmarks.word = bookmark.word;
 
-    getBookmarks();
+    _bookmarks.add(bookmarks);
+  }
+
+  void removeBookmark(int id) {
+    _bookmarks.removeWhere((element) => element.id == id);
+  }
+
+  bool isBookmarked(int wordId) {
+    return _bookmark.value.dictionaryId == wordId;
   }
 
   Future<void> getMarkedWord(int dictionaryId) async {
@@ -28,14 +38,38 @@ class BookmarkController extends GetxController {
 
     if (response.statusCode != 200) {
       _requestState.value = RequestState.Error;
-      Get.snackbar("Opps, an error occured", response.message);
+
+      if (response.statusCode == 401) {
+        Get.snackbar(
+          "Opps, your session has expired.",
+          "Please login again!",
+          snackPosition: SnackPosition.BOTTOM,
+          duration: const Duration(seconds: 5),
+        );
+      } else {
+        Get.snackbar("Opps, an error occured", response.message);
+      }
     } else {
       _bookmark.value = response.data ?? Bookmark();
       _requestState.value = RequestState.Loaded;
     }
   }
 
-  Future<void> getBookmarks() async {
+  // add word to bookmark
+  Future<bool> addWordToBookmark(int dictionaryId) async {
+    final result = await _bookmarkRepository.addWordToBookmark(dictionaryId);
+
+    if (result.isLeft()) {
+      Get.snackbar(
+          "Opps, an error occured", result.fold((l) => l.message, (r) => ''));
+    }
+
+    _bookmark.value = result.fold((l) => Bookmark(), (r) => r);
+
+    return true;
+  }
+
+  Future<void> fetchBookmarks() async {
     _requestState.value = RequestState.Loading;
     final result = await _bookmarkRepository.getBookmarks();
 

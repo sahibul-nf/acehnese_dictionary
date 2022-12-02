@@ -1,5 +1,5 @@
+import 'package:acehnese_dictionary/app/features/auth/pages/auth_check.dart';
 import 'package:acehnese_dictionary/app/routes/app_pages.dart';
-import 'package:acehnese_dictionary/app/routes/app_routes.dart';
 import 'package:acehnese_dictionary/app/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
@@ -18,8 +18,9 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: AppColor.background,
       ),
       darkTheme: ThemeData.dark(),
-      initialRoute: AppRoutes.splaceScreen,
+      // initialRoute: AppRoutes.splaceScreen,
       getPages: AppPages.pages,
+      home: const AuthCheck(),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:acehnese_dictionary/app/features/search/models/get_recommendation_list_model.dart';
 import 'package:acehnese_dictionary/app/features/search/repositories/search_repository.dart';
+import 'package:acehnese_dictionary/app/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -37,7 +38,14 @@ class SearchController extends GetxController {
     } else if (response.statusCode != 200) {
       _isError.value = response.statusCode != 200;
 
-      Get.snackbar("Opps, an error occured", response.message);
+      // show snackbar error message
+      Get.snackbar(
+        "Opps",
+        "Something went wrong",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: AppColor.error,
+        colorText: Colors.white,
+      );
     } else {
       _recommendations.assignAll(response.data!);
     }

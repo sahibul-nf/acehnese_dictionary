@@ -1,5 +1,7 @@
 import 'package:acehnese_dictionary/app/features/bookmark/models/bookmarks.dart';
 import 'package:acehnese_dictionary/app/features/bookmark/repositories/bookmark_repository.dart';
+import 'package:acehnese_dictionary/app/utils/color.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../utils/state_enum.dart';
@@ -44,10 +46,19 @@ class BookmarkController extends GetxController {
           "Opps, your session has expired.",
           "Please login again!",
           snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: AppColor.error,
+          colorText: Colors.white,
           duration: const Duration(seconds: 5),
         );
       } else {
-        Get.snackbar("Opps, an error occured", response.message);
+        // show snackbar error message
+        Get.snackbar(
+          "Opps",
+          "Something went wrong",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: AppColor.error,
+          colorText: Colors.white,
+        );
       }
     } else {
       _bookmark.value = response.data ?? Bookmark();
@@ -60,8 +71,14 @@ class BookmarkController extends GetxController {
     final result = await _bookmarkRepository.addWordToBookmark(dictionaryId);
 
     if (result.isLeft()) {
+      // show snackbar error message
       Get.snackbar(
-          "Opps, an error occured", result.fold((l) => l.message, (r) => ''));
+        "Opps",
+        "Something went wrong",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: AppColor.error,
+        colorText: Colors.white,
+      );
     }
 
     _bookmark.value = result.fold((l) => Bookmark(), (r) => r);
@@ -76,7 +93,15 @@ class BookmarkController extends GetxController {
     result.fold(
       (failure) {
         _requestState.value = RequestState.Error;
-        Get.snackbar("Opps, an error occured", failure.message);
+
+        // show snackbar error message
+        Get.snackbar(
+          "Opps",
+          failure.message,
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: AppColor.error,
+          colorText: Colors.white,
+        );
       },
       (bookmarks) {
         _bookmarks.value = bookmarks;

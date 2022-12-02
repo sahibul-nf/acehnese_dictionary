@@ -1,6 +1,7 @@
 import 'package:acehnese_dictionary/app/features/dictionary/models/word.dart';
 import 'package:acehnese_dictionary/app/features/dictionary/models/word_detail.dart';
 import 'package:acehnese_dictionary/app/features/dictionary/repositories/dictionary_repository.dart';
+import 'package:acehnese_dictionary/app/utils/color.dart';
 import 'package:acehnese_dictionary/app/utils/state_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -46,7 +47,14 @@ class DictionaryController extends GetxController {
     if (response.statusCode != 200) {
       _isError.value = response.statusCode != 200;
 
-      Get.snackbar("Opps, an error occured", response.message);
+      // show snackbar error message
+      Get.snackbar(
+        "Opps",
+        "Something went wrong",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: AppColor.error,
+        colorText: Colors.white,
+      );
     } else {
       _wordList.assignAll(response.data!.words);
     }
@@ -62,7 +70,14 @@ class DictionaryController extends GetxController {
     if (response.statusCode != 200) {
       _isError.value = response.statusCode != 200;
 
-      Get.snackbar("Opps, an error occured", response.message);
+      // show snackbar error message
+      Get.snackbar(
+        "Opps",
+        "Something went wrong",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: AppColor.error,
+        colorText: Colors.white,
+      );
     } else {
       _wordDetail.value = response.data!;
     }

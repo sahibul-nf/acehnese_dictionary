@@ -4,6 +4,7 @@ import 'package:acehnese_dictionary/app/features/auth/respositories/auth_reposit
 import 'package:acehnese_dictionary/app/features/user_profile/controllers/user_controller.dart';
 import 'package:acehnese_dictionary/app/features/user_profile/repositories/user_repositories.dart';
 import 'package:acehnese_dictionary/app/routes/app_routes.dart';
+import 'package:acehnese_dictionary/app/utils/color.dart';
 import 'package:acehnese_dictionary/app/utils/services/local_storage_service.dart';
 import 'package:acehnese_dictionary/app/utils/state_enum.dart';
 import 'package:flutter/material.dart';
@@ -58,8 +59,26 @@ class AuthController extends GetxController {
       (failure) {
         _requestState.value = RequestState.Error;
         _errorMessage.value = failure.message;
+
+        // show snackbar error message
+        Get.snackbar(
+          'Oops!',
+          failure.message,
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: AppColor.error,
+          colorText: Colors.white,
+        );
       },
       (data) {
+        // show snackbar success register and redirect to login page
+        Get.snackbar(
+          'Awesome!',
+          'Your account has been created, please login to continue.',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: AppColor.primary,
+          colorText: Colors.white,
+        );
+
         _requestState.value = RequestState.Loaded;
         clearSignUpForm();
 
@@ -90,7 +109,15 @@ class AuthController extends GetxController {
     result.fold(
       (failure) {
         _requestState.value = RequestState.Error;
-        Get.snackbar("Opps, an error occured", failure.message);
+
+        // show snackbar error message
+        Get.snackbar(
+          'Oops!',
+          failure.message,
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: AppColor.error,
+          colorText: Colors.white,
+        );
       },
       (data) {
         setAuthModel(data);
@@ -100,6 +127,15 @@ class AuthController extends GetxController {
         // Save token to local storage
         LocalStorageService.saveToken(data.token!);
         setAuthState(AuthState.login);
+
+        // show snackbar success login
+        Get.snackbar(
+          'Welcome!',
+          'You are logged in',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: AppColor.primary,
+          colorText: Colors.white,
+        );
 
         Get.offAll(const AuthCheck());
       },
@@ -116,6 +152,15 @@ class AuthController extends GetxController {
       setAuthModel(null);
       // Delete token from local storage
       LocalStorageService.deleteToken();
+
+      // show snackbar success logout
+      Get.snackbar(
+        'Goodbye!',
+        'You are logged out',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: AppColor.primary,
+        colorText: Colors.white,
+      );
 
       Get.offAll(const AuthCheck());
     });
@@ -147,8 +192,14 @@ class AuthController extends GetxController {
           // Delete token from local storage
           LocalStorageService.deleteToken();
 
-          // show snackbar
-          Get.snackbar("Opps, an error occured", failure.message);
+          // show snackbar error message
+          Get.snackbar(
+            'Oops!',
+            failure.message,
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: AppColor.error,
+            colorText: Colors.white,
+          );
         },
         (data) {
           final _userController = Get.find<UserController>();

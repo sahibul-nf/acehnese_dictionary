@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:acehnese_dictionary/app/features/user_profile/models/user_model.dart';
 import 'package:acehnese_dictionary/app/utils/failure.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -88,7 +90,8 @@ class AuthRepositoryImpl implements AuthRepository {
       final authModel = AuthModel.fromJson(data);
       return Right(authModel);
     } catch (e) {
-      return Left(ConnectionFailure(e.toString()));
+      log(e.toString());
+      return Left(ServerFailure(e.toString()));
     }
   }
 }

@@ -72,7 +72,14 @@ class RestApiService {
       log("Response: ${e.response?.data['meta']['message']}",
           name: "RestApiService", time: DateTime.now());
 
-      throw Exception([e.response?.statusCode, e.response?.data['errors']]);
+      throw Exception([
+        e.response?.statusCode,
+        e.response?.data['errors'],
+        e.response?.data['meta'].toString()
+      ]);
+    } catch (e) {
+      log("Request POST: ${e.toString()}", name: "RestApiService");
+      throw Exception(e.toString());
     }
   }
 

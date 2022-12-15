@@ -5,6 +5,7 @@ import 'package:acehnese_dictionary/app/features/user_profile/controllers/user_c
 import 'package:acehnese_dictionary/app/features/user_profile/repositories/user_repositories.dart';
 import 'package:acehnese_dictionary/app/routes/app_routes.dart';
 import 'package:acehnese_dictionary/app/utils/color.dart';
+import 'package:acehnese_dictionary/app/utils/error_handling.dart';
 import 'package:acehnese_dictionary/app/utils/services/local_storage_service.dart';
 import 'package:acehnese_dictionary/app/utils/state_enum.dart';
 import 'package:flutter/material.dart';
@@ -18,15 +19,11 @@ class AuthController extends GetxController {
 
   final Rx<AuthModel?> _authModel = Rx<AuthModel?>(null);
 
-  final _errorMessage = ''.obs;
   final _requestState = RequestState.Idle.obs;
   final _authState = AuthState.unknown.obs;
 
   AuthModel? get authModel => _authModel.value;
   void setAuthModel(AuthModel? value) => _authModel.value = value;
-
-  String get errorMessage => _errorMessage.value;
-  void setErrorMessage(String value) => _errorMessage.value = value;
 
   RequestState get requestState => _requestState.value;
   AuthState get authState => _authState.value;
@@ -58,12 +55,13 @@ class AuthController extends GetxController {
     result.fold(
       (failure) {
         _requestState.value = RequestState.Error;
-        _errorMessage.value = failure.message;
+
+        final err = ErrorHandling.handleError(failure);
 
         // show snackbar error message
         Get.snackbar(
           'Oops!',
-          failure.message,
+          err,
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: AppColor.error,
           colorText: Colors.white,
@@ -110,10 +108,12 @@ class AuthController extends GetxController {
       (failure) {
         _requestState.value = RequestState.Error;
 
+        final err = ErrorHandling.handleError(failure);
+
         // show snackbar error message
         Get.snackbar(
           'Oops!',
-          failure.message,
+          err,
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: AppColor.error,
           colorText: Colors.white,
@@ -192,10 +192,12 @@ class AuthController extends GetxController {
           // Delete token from local storage
           LocalStorageService.deleteToken();
 
+          final err = ErrorHandling.handleError(failure);
+
           // show snackbar error message
           Get.snackbar(
             'Oops!',
-            failure.message,
+            err,
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: AppColor.error,
             colorText: Colors.white,

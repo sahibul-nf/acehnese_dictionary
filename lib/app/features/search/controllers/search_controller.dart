@@ -14,7 +14,10 @@ class SearchController extends GetxController {
   bool get isLoading => _isLoading.value;
   bool get isError => _isError.value;
   List<RecommendationWordModel> get recommendations => _recommendations;
-  void resetRecommendations() => _recommendations.clear();
+  void resetRecommendations() {
+    _recommendations.clear();
+    inputController.clear();
+  }
 
   // jaro_winkler_distance (jwd), levenshtein_distance (lev
   final isJaroWinkler = true.obs;
@@ -51,5 +54,11 @@ class SearchController extends GetxController {
     }
 
     _isLoading.value = false;
+  }
+
+  @override
+  void onClose() {
+    inputController.dispose();
+    super.onClose();
   }
 }

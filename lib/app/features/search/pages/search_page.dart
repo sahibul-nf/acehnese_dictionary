@@ -24,6 +24,7 @@ class SearchPage extends StatelessWidget {
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 24),
             child: SearchInput(
+              key: const Key('search_field'),
               textController: controller.inputController,
               onChanged: (v) {
                 // check if not loading and typed something

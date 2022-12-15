@@ -83,6 +83,7 @@ class ProfilePage extends GetView<UserController> {
                 const Spacer(),
                 Obx(
                   () => SecondaryButton(
+                    key: const Key('signOutButton'),
                     text: (authController.requestState == RequestState.Loading)
                         ? "Wait a moment..."
                         : "Sign Out",
@@ -100,6 +101,7 @@ class ProfilePage extends GetView<UserController> {
         }
 
         return const NoLoggedInScreen(
+          key: Key('noLoggedInScreen'),
           message: "Please login to see your profile. \nThank you.",
           image: "assets/images/profile.svg",
         );

@@ -44,6 +44,7 @@ class BookmarkPage extends StatelessWidget {
                 return const SizedBox();
               } else {
                 return IconButton(
+                  key: const Key('delete_all_bookmark'),
                   onPressed: _deleteAllBookmark,
                   icon: const Icon(UniconsLine.trash),
                   color: AppColor.black,
@@ -67,7 +68,9 @@ class BookmarkPage extends StatelessWidget {
               );
             } else {
               if (controller.bookmarks.isEmpty) {
-                return const EmptyBookmark();
+                return const EmptyBookmark(
+                  key: Key('empty_bookmark'),
+                );
               }
 
               return RefreshIndicator(
@@ -79,6 +82,7 @@ class BookmarkPage extends StatelessWidget {
                     final Word word = controller.bookmarks[index].word!;
 
                     return Slidable(
+                      key: Key("slidable_$index"),
                       closeOnScroll: true,
                       startActionPane: ActionPane(
                         extentRatio: 0.23,
@@ -86,6 +90,7 @@ class BookmarkPage extends StatelessWidget {
                         children: [
                           const SizedBox(width: 20),
                           SlidableAction(
+                            key: Key("slidable_action_$index"),
                             onPressed: (context) => _deleteBookmark(word.id),
                             backgroundColor: AppColor.error,
                             foregroundColor: Colors.white,
@@ -102,6 +107,7 @@ class BookmarkPage extends StatelessWidget {
                         children: [
                           // const SizedBox(width: 16),
                           SlidableAction(
+                            key: Key("slidable_action_$index"),
                             onPressed: (context) => _deleteBookmark(word.id),
                             backgroundColor: AppColor.error,
                             foregroundColor: Colors.white,
@@ -138,6 +144,7 @@ class BookmarkPage extends StatelessWidget {
 
           // if user not logged in yet return info text, illustration and login button
           return const NoLoggedInScreen(
+            key: Key('noLoggedInScreen'),
             image: "assets/images/add-note.svg",
             message:
                 "Login first to see the list of words \nthat you bookmarked.",

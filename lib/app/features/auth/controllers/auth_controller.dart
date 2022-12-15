@@ -221,4 +221,14 @@ class AuthController extends GetxController {
       Get.offNamed(AppRoutes.feat);
     });
   }
+
+  @override
+  void onClose() {
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    emailLoginController.dispose();
+    passwordLoginController.dispose();
+    super.onClose();
+  }
 }

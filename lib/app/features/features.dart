@@ -1,6 +1,6 @@
 import 'package:acehnese_dictionary/app/features/bookmark/pages/bookmark_page.dart';
-import 'package:acehnese_dictionary/app/features/user_profile/pages/profile_page.dart';
 import 'package:acehnese_dictionary/app/features/search/pages/search_page.dart';
+import 'package:acehnese_dictionary/app/features/user_profile/pages/profile_page.dart';
 import 'package:acehnese_dictionary/app/utils/color.dart';
 import 'package:acehnese_dictionary/app/utils/typography.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +47,7 @@ class _FeaturesState extends State<Features> {
               icon: const Icon(UniconsLine.search),
               title: Text(
                 "Search",
+                key: const Key('searchPage'),
                 style: AppTypography.fontStyle(
                   height: 1.3,
                   color: AppColor.primary,
@@ -58,6 +59,7 @@ class _FeaturesState extends State<Features> {
               icon: const Icon(UniconsLine.list_ul),
               title: Text(
                 "Words",
+                key: const Key('wordListPage'),
                 style: AppTypography.fontStyle(
                   height: 1.3,
                   color: AppColor.primary,
@@ -69,6 +71,7 @@ class _FeaturesState extends State<Features> {
               icon: const Icon(UniconsLine.bookmark),
               title: Text(
                 "Bookmark",
+                key: const Key('bookmarkPage'),
                 style: AppTypography.fontStyle(
                   height: 1.3,
                   color: AppColor.primary,
@@ -80,6 +83,7 @@ class _FeaturesState extends State<Features> {
               icon: const Icon(UniconsLine.user),
               title: Text(
                 "Profile",
+                key: const Key('profilePage'),
                 style: AppTypography.fontStyle(
                   height: 1.3,
                   color: AppColor.primary,

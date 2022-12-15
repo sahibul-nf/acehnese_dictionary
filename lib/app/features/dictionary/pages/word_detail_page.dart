@@ -71,6 +71,7 @@ class WordDetailPage extends GetView<DictionaryController> {
                           ),
                         )
                       : PageView.builder(
+                          key: const Key('pageview'),
                           controller: controller.pageController,
                           itemCount:
                               controller.wordDetail.imagesUrl?.length ?? 0,
@@ -189,6 +190,7 @@ class WordDetailPage extends GetView<DictionaryController> {
                           }
 
                           return LikeButton(
+                            key: const Key('bookmark_button'),
                             isLiked: _bookmarkController.isBookmarked(wordId),
                             likeBuilder: (bool isLiked) {
                               return Icon(
@@ -233,6 +235,7 @@ class WordDetailPage extends GetView<DictionaryController> {
                                         ),
                                       ),
                                       TextButton(
+                                        key: const Key("login_button"),
                                         onPressed: () {
                                           Get.back();
                                           Get.toNamed(AppRoutes.signin);
@@ -264,7 +267,11 @@ class WordDetailPage extends GetView<DictionaryController> {
               ],
             ),
           ),
-          const SafeArea(child: AppBackButton()),
+          const SafeArea(
+            child: AppBackButton(
+              key: Key("back_button"),
+            ),
+          ),
         ],
       ),
     );
@@ -320,6 +327,7 @@ class _Word extends StatelessWidget {
             // switch language
             const SizedBox(width: 8),
             IconButton(
+              key: const Key("switch_language_button"),
               onPressed: onPressed,
               icon: const Icon(
                 UniconsLine.exchange,

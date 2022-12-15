@@ -23,6 +23,7 @@ class WordListPage extends StatelessWidget {
       body: DefaultTabController(
         length: 3,
         child: NestedScrollView(
+          key: const Key("wordListScrollView"),
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
@@ -138,6 +139,7 @@ class WordListBuilder extends StatelessWidget {
           }
 
           return InkWell(
+            key: Key("wordList_$index"),
             onTap: () {
               Get.toNamed(
                 AppRoutes.wordDetail,

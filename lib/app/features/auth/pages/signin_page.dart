@@ -41,6 +41,7 @@ class SignInPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: TextField(
+                  key: const Key('email'),
                   controller: _authController.emailLoginController,
                   cursorColor: AppColor.primary,
                   decoration: InputDecoration(
@@ -73,6 +74,7 @@ class SignInPage extends StatelessWidget {
                 () => Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: TextField(
+                    key: const Key('password'),
                     controller: _authController.passwordLoginController,
                     cursorColor: AppColor.primary,
                     obscureText: _authController.obsecureText,

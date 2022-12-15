@@ -30,10 +30,14 @@ dependencies:
   shimmer: ^2.0.0
   smooth_page_indicator: ^1.0.0+2
   unicons: ^2.0.2
+  convenient_test: ^1.2.1
 
 dev_dependencies:
+  convenient_test_dev: ^1.2.1
   flutter_lints: ^1.0.0
   flutter_test:
+    sdk: flutter
+  integration_test:
     sdk: flutter
 
 flutter:

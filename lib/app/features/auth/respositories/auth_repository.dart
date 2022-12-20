@@ -24,6 +24,10 @@ abstract class AuthRepository {
 }
 
 class AuthRepositoryImpl implements AuthRepository {
+  final RestApiService? restApiService;
+
+  AuthRepositoryImpl({this.restApiService});
+
   @override
   Future<Either<Failure, UserModel>> signUp({
     required String name,

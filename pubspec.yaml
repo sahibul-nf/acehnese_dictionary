@@ -13,8 +13,10 @@ dependencies:
   arkit_plugin: ^1.0.5
   cached_network_image: ^3.2.2
   connectivity_plus: ^3.0.2
+  convenient_test: ^1.2.1
   dartz: ^0.10.1
   dio: ^4.0.6
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
   flutter_slidable: ^2.0.0
@@ -26,11 +28,11 @@ dependencies:
   http: ^0.13.4
   like_button: ^2.0.5
   loading_animation_widget: ^1.2.0+3
+  mocktail: ^0.3.0
   salomon_bottom_bar: ^3.3.1
   shimmer: ^2.0.0
   smooth_page_indicator: ^1.0.0+2
   unicons: ^2.0.2
-  convenient_test: ^1.2.1
 
 dev_dependencies:
   convenient_test_dev: ^1.2.1

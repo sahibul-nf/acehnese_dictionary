@@ -15,4 +15,6 @@ class SearchResponse extends ApiResponseInterface {
         );
 
   final List<RecommendationWordModel>? data;
+
+  
 }

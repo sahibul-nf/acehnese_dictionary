@@ -30,7 +30,7 @@ class SearchPage extends StatelessWidget {
                 // check if not loading and typed something
                 if (!controller.isLoading && v.isNotEmpty) {
                   // search with delay
-                  Future.delayed(const Duration(milliseconds: 500), () {
+                  Future.delayed(const Duration(milliseconds: 700), () {
                     controller.search(v);
                   });
                 }

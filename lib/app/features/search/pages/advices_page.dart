@@ -167,7 +167,7 @@ class AdvicesPage extends StatelessWidget {
                                 for (var item in advicesController.advices)
                                   InkWell(
                                     onTap: () {
-                                      search.text = item.aceh!;
+                                      search.text = item.aceh;
                                       // if (admobController
                                       //     .isInterstitialAdReady.value) {
                                       //   admobController.interstitialAd?.show();

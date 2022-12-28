@@ -37,8 +37,8 @@ void main() {
       bookmarkRobot = BookmarkRobot(tester: tester);
       profileRobot = ProfileRobot(tester: tester);
 
-      const email = "snf1123@gmail.com";
-      const password = "snf";
+      const email = "pass123@gmail.com";
+      const password = "pass123";
 
       // ====================== System Testing ======================
       // Display the splash screen
@@ -202,8 +202,8 @@ void main() {
       profileRobot = ProfileRobot(tester: tester);
 
       const name = "Sahibul";
-      const email = "snf@gmail.com";
-      const password = "snf";
+      const email = "pass123@gmail.com";
+      const password = "pass";
 
       // ====================== System Testing ======================
       // Test displays the splash screen

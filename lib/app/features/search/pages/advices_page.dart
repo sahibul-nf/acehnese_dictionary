@@ -1,4 +1,3 @@
-import 'package:acehnese_dictionary/app/features/admob/admob_controller.dart';
 import 'package:acehnese_dictionary/app/features/search/controllers/advices_controller.dart';
 import 'package:acehnese_dictionary/app/features/search/pages/arview_page.dart';
 import 'package:acehnese_dictionary/app/features/search/widgets/advices_card.dart';
@@ -7,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+// import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:unicons/unicons.dart';
 
 // ignore: must_be_immutable
@@ -19,7 +18,7 @@ class AdvicesPage extends StatelessWidget {
   var search = TextEditingController();
 
   final advicesController = Get.put(AdvicesController());
-  final admobController = Get.put(AdmobController());
+  // final admobController = Get.put(AdmobController());
 
   @override
   Widget build(BuildContext context) {
@@ -128,17 +127,17 @@ class AdvicesPage extends StatelessWidget {
                         const SizedBox(
                           height: 20,
                         ),
-                        Obx(() {
-                          return admobController.isBannerAdReady.value
-                              ? SizedBox(
-                                  width: admobController.bannerAd.size.width
-                                      .toDouble(),
-                                  height: admobController.bannerAd.size.height
-                                      .toDouble(),
-                                  child: AdWidget(ad: admobController.bannerAd),
-                                )
-                              : const SizedBox();
-                        })
+                        // Obx(() {
+                        //   return admobController.isBannerAdReady.value
+                        //       ? SizedBox(
+                        //           width: admobController.bannerAd.size.width
+                        //               .toDouble(),
+                        //           height: admobController.bannerAd.size.height
+                        //               .toDouble(),
+                        //           child: AdWidget(ad: admobController.bannerAd),
+                        //         )
+                        //       : const SizedBox();
+                        // })
                       ],
                     ),
                   ),

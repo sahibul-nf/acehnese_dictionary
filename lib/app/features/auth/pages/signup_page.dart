@@ -24,7 +24,14 @@ class SignUpPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SafeArea(child: AppBackButton()),
+              SafeArea(
+                child: Padding(
+                  padding: EdgeInsets.only(top: GetPlatform.isAndroid ? 16 : 0),
+                  child: const AppBackButton(
+                    key: Key("back_button"),
+                  ),
+                ),
+              ),
               // Headline text with value "Create Your Account"
               Center(
                 child: Text(

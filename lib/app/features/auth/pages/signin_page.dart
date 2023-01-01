@@ -20,7 +20,14 @@ class SignInPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          const SafeArea(child: AppBackButton()),
+          SafeArea(
+            child: Padding(
+              padding: EdgeInsets.only(top: GetPlatform.isAndroid ? 16 : 0),
+              child: const AppBackButton(
+                key: Key("back_button"),
+              ),
+            ),
+          ),
           Form(
             key: _formKey,
             child: Column(

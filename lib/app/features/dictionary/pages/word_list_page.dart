@@ -38,6 +38,7 @@ class WordListPage extends StatelessWidget {
                 floating: true,
                 pinned: true,
                 snap: true,
+                centerTitle: true,
                 bottom: TabBar(
                   labelColor: AppColor.primary,
                   indicatorColor: AppColor.primary,

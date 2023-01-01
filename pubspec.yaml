@@ -24,7 +24,7 @@ dependencies:
   get: ^4.6.1
   get_storage: ^2.0.3
   google_fonts: ^2.2.0
-  google_mobile_ads: ^1.0.1
+  # google_mobile_ads: ^1.0.1
   http: ^0.13.4
   like_button: ^2.0.5
   loading_animation_widget: ^1.2.0+3

@@ -267,9 +267,12 @@ class WordDetailPage extends GetView<DictionaryController> {
               ],
             ),
           ),
-          const SafeArea(
-            child: AppBackButton(
-              key: Key("back_button"),
+          SafeArea(
+            child: Padding(
+              padding: EdgeInsets.only(top: GetPlatform.isAndroid ? 16 : 0),
+              child: const AppBackButton(
+                key: Key("back_button"),
+              ),
             ),
           ),
         ],

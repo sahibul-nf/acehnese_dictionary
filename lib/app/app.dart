@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: AppColor.background,
         ),
         darkTheme: ThemeData.dark(),
+        themeMode: ThemeMode.light,
         // initialRoute: AppRoutes.splaceScreen,
         getPages: AppPages.pages,
         home: const AuthCheck(),

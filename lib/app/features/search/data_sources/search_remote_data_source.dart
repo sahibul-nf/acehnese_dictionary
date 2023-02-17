@@ -26,7 +26,7 @@ class SearchRemoteDataSource {
       // log body meta message with key 'message, code'
       log(
         'Code: ${body.meta.code}, Message: ${body.meta.message}',
-        name: 'getAllWords',
+        name: 'search',
         error: body.errors,
       );
 

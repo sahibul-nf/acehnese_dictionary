@@ -1,0 +1,11 @@
+{
+    "meta": {
+        "message": "Successfully to login",
+        "code": 200,
+        "status": "OK"
+    },
+    "errors": null,
+    "data": {
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyMH0.NgeLviI2sRkCpAYIhFcq-K5Qv-5dNmlZxnHW337ByKM"
+    }
+}

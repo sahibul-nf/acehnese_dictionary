@@ -1,3 +1,4 @@
+import 'package:acehnese_dictionary/app/features/dictionary/data_sources/dictionary_remote_data_source.dart';
 import 'package:acehnese_dictionary/app/features/dictionary/models/word.dart';
 import 'package:acehnese_dictionary/app/features/dictionary/models/word_detail.dart';
 import 'package:acehnese_dictionary/app/features/dictionary/repositories/dictionary_repository.dart';
@@ -7,7 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DictionaryController extends GetxController {
-  final _dictionaryRepositoryImpl = DictionaryRepositoryImpl();
+  final _dictionaryRepositoryImpl = DictionaryRepositoryImpl(
+      remoteDataSource: DictionaryRemoteDataSourceImpl(null));
   final _wordList = <Word>[].obs;
   final _wordDetail = WordDetail().obs;
 
@@ -44,20 +46,24 @@ class DictionaryController extends GetxController {
     _isLoadWordList.value = true;
     final response = await _dictionaryRepositoryImpl.getAllWords();
 
-    if (response.statusCode != 200) {
-      _isError.value = response.statusCode != 200;
+    response.fold(
+      (l) {
+        _isError.value = true;
+        _errorMessage.value = l.message;
 
-      // show snackbar error message
-      Get.snackbar(
-        "Opps",
-        "Something went wrong",
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppColor.error,
-        colorText: Colors.white,
-      );
-    } else {
-      _wordList.assignAll(response.data!.words);
-    }
+        // show snackbar error message
+        Get.snackbar(
+          "Opps",
+          "Something went wrong",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: AppColor.error,
+          colorText: Colors.white,
+        );
+      },
+      (r) {
+        _wordList.assignAll(r.words);
+      },
+    );
 
     _isLoadWordList.value = false;
   }

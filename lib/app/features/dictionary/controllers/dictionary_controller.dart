@@ -73,20 +73,24 @@ class DictionaryController extends GetxController {
     _isLoadWordDetail.value = true;
     final response = await _dictionaryRepositoryImpl.getWordDetail(wordId);
 
-    if (response.statusCode != 200) {
-      _isError.value = response.statusCode != 200;
+    response.fold(
+      (l) {
+        _isError.value = true;
+        _errorMessage.value = l.message;
 
-      // show snackbar error message
-      Get.snackbar(
-        "Opps",
-        "Something went wrong",
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppColor.error,
-        colorText: Colors.white,
-      );
-    } else {
-      _wordDetail.value = response.data!;
-    }
+        // show snackbar error message
+        Get.snackbar(
+          "Opps",
+          "Something went wrong",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: AppColor.error,
+          colorText: Colors.white,
+        );
+      },
+      (r) {
+        _wordDetail.value = r;
+      },
+    );
 
     _isLoadWordDetail.value = false;
   }

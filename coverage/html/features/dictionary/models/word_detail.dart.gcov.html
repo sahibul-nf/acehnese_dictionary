@@ -31,13 +31,13 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">7</td>
             <td class="headerCovTableEntry">13</td>
-            <td class="headerCovTableEntryLo">0.0 %</td>
+            <td class="headerCovTableEntryLo">53.8 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-02-18 03:36:26</td>
+            <td class="headerValue">2023-02-19 05:03:32</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -61,7 +61,7 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : class WordDetail {</a>
-<a name="2"><span class="lineNum">       2 </span><span class="lineNoCov">          0 :   WordDetail({</span></a>
+<a name="2"><span class="lineNum">       2 </span><span class="lineCov">          2 :   WordDetail({</span></a>
 <a name="3"><span class="lineNum">       3 </span>            :     this.id,</a>
 <a name="4"><span class="lineNum">       4 </span>            :     this.aceh,</a>
 <a name="5"><span class="lineNum">       5 </span>            :     this.indonesia,</a>
@@ -75,12 +75,12 @@
 <a name="13"><span class="lineNum">      13 </span>            :   final String? english;</a>
 <a name="14"><span class="lineNum">      14 </span>            :   final List&lt;String&gt;? imagesUrl;</a>
 <a name="15"><span class="lineNum">      15 </span>            : </a>
-<a name="16"><span class="lineNum">      16 </span><span class="lineNoCov">          0 :   factory WordDetail.fromJson(Map&lt;String, dynamic&gt; json) =&gt; WordDetail(</span></a>
-<a name="17"><span class="lineNum">      17 </span><span class="lineNoCov">          0 :         id: json[&quot;id&quot;],</span></a>
-<a name="18"><span class="lineNum">      18 </span><span class="lineNoCov">          0 :         aceh: json[&quot;aceh&quot;],</span></a>
-<a name="19"><span class="lineNum">      19 </span><span class="lineNoCov">          0 :         indonesia: json[&quot;indonesia&quot;],</span></a>
-<a name="20"><span class="lineNum">      20 </span><span class="lineNoCov">          0 :         english: json[&quot;english&quot;],</span></a>
-<a name="21"><span class="lineNum">      21 </span><span class="lineNoCov">          0 :         imagesUrl: List&lt;String&gt;.from(json[&quot;images_url&quot;].map((x) =&gt; x)),</span></a>
+<a name="16"><span class="lineNum">      16 </span><span class="lineCov">          2 :   factory WordDetail.fromJson(Map&lt;String, dynamic&gt; json) =&gt; WordDetail(</span></a>
+<a name="17"><span class="lineNum">      17 </span><span class="lineCov">          1 :         id: json[&quot;id&quot;],</span></a>
+<a name="18"><span class="lineNum">      18 </span><span class="lineCov">          1 :         aceh: json[&quot;aceh&quot;],</span></a>
+<a name="19"><span class="lineNum">      19 </span><span class="lineCov">          1 :         indonesia: json[&quot;indonesia&quot;],</span></a>
+<a name="20"><span class="lineNum">      20 </span><span class="lineCov">          1 :         english: json[&quot;english&quot;],</span></a>
+<a name="21"><span class="lineNum">      21 </span><span class="lineCov">          4 :         imagesUrl: List&lt;String&gt;.from(json[&quot;images_url&quot;].map((x) =&gt; x)),</span></a>
 <a name="22"><span class="lineNum">      22 </span>            :       );</a>
 <a name="23"><span class="lineNum">      23 </span>            : </a>
 <a name="24"><span class="lineNum">      24 </span><span class="lineNoCov">          0 :   Map&lt;String, dynamic&gt; toJson() =&gt; {</span></a>

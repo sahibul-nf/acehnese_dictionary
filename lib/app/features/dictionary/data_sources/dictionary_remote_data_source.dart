@@ -30,7 +30,7 @@ class DictionaryRemoteDataSourceImpl extends DictionaryRemoteDataSource {
         name: 'getAllWords',
         error: body.errors,
       );
-      
+
       final data = GetAllWordsModel.fromJson(body.data);
       return data;
     } else {
@@ -39,8 +39,22 @@ class DictionaryRemoteDataSourceImpl extends DictionaryRemoteDataSource {
   }
 
   @override
-  Future<WordDetail> getWordDetail(int wordId) {
-    // TODO: implement getWordDetail
-    throw UnimplementedError();
+  Future<WordDetail> getWordDetail(int wordId) async {
+    final response = await dio.get(Api.baseUrl + ApiPath.getWordDetail(wordId));
+
+    if (response.statusCode == 200) {
+      final body = ApiResponse.fromJson(response.data);
+      // log body meta message with key 'message, code'
+      log(
+        'Code: ${body.meta.code}, Message: ${body.meta.message}',
+        name: 'getAllWords',
+        error: body.errors,
+      );
+
+      final data = WordDetail.fromJson(body.data);
+      return data;
+    } else {
+      throw ServerException();
+    }
   }
 }

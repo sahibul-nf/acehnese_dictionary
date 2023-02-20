@@ -1,0 +1,14 @@
+{
+    "meta": {
+        "message": "Successfully to register user",
+        "code": 200,
+        "status": "OK"
+    },
+    "errors": null,
+    "data": {
+        "id": 21,
+        "name": "sahibul",
+        "email": "snf1123@gmail.com",
+        "avatar_url": ""
+    }
+}

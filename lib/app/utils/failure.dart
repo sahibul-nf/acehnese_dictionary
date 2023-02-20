@@ -20,3 +20,11 @@ class CacheFailure extends Failure {
 class ConnectionFailure extends Failure {
   const ConnectionFailure(String message) : super(message);
 }
+
+class InvalidCredentialFailure extends Failure {
+  const InvalidCredentialFailure(String message) : super(message);
+}
+
+class UnauthorizedFailure extends Failure {
+  const UnauthorizedFailure(String message) : super(message);
+}

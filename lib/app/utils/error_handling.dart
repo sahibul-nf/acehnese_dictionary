@@ -5,8 +5,8 @@ class ErrorHandling {
     final err = failure.message.toLowerCase();
 
     // handle any error here
-    if (err.contains('email')) {
-      return 'Email is already taken';
+    if (err.contains('email already exist')) {
+      return 'Email is already registered';
     } else if (err.contains('password')) {
       return 'Password must be at least 8 characters';
     } else if (err.contains('name')) {
@@ -24,6 +24,9 @@ class ErrorHandling {
     } else if (err.contains('unauthorized')) {
       return 'Unauthorized, please login again';
     } else {
+      if (err.isEmpty) {
+        return 'Something went wrong, please try again later';
+      }
       return err;
     }
   }

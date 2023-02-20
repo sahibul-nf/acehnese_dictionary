@@ -15,7 +15,8 @@ import 'package:get/get.dart';
 enum AuthState { login, logout, expired, unknown }
 
 class AuthController extends GetxController {
-  final _authRepositoryImpl = AuthRepositoryImpl(remoteDataSource: AuthRemoteDataSourceImpl(null));
+  final _authRepositoryImpl =
+      AuthRepositoryImpl(remoteDataSource: AuthRemoteDataSourceImpl(null));
   final _userRepositoryImpl = UserRepositoryImpl();
 
   final Rx<AuthModel?> _authModel = Rx<AuthModel?>(null);

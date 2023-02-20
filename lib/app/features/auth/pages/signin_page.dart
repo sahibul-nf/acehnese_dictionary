@@ -17,6 +17,8 @@ class SignInPage extends StatelessWidget {
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
     final _authController = Get.find<AuthController>();
 
+    _authController.clearSignInForm();
+
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(bottom: 20),

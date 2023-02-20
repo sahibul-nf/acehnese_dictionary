@@ -43,6 +43,10 @@ class AuthRepositoryImpl implements AuthRepository {
       return Right(response);
     } on SocketException catch (_) {
       return const Left(ConnectionFailure('No internet connection'));
+    } on InvalidCredentialException catch (_) {
+      return const Left(InvalidCredentialFailure('invalid credential'));
+    } on EmailAlreadyExistException catch (_) {
+      return const Left(EmailAlreadyExistFailure('email already exist'));
     } on ServerException catch (_) {
       return const Left(ServerFailure(''));
     }

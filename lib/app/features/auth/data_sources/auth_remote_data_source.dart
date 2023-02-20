@@ -71,28 +71,42 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
     required String email,
     required String password,
   }) async {
-    final response = await dio.post(
-      Api.baseUrl + ApiPath.signUp(),
-      data: {
-        'name': name,
-        'email': email,
-        'password': password,
-      },
-    );
+    try {
+      final response = await dio.post(
+        Api.baseUrl + ApiPath.signUp(),
+        data: {
+          'name': name,
+          'email': email,
+          'password': password,
+        },
+      );
 
-    if (response.statusCode != 200) {
+      final body = ApiResponse.fromJson(response.data);
+
+      // log body meta message with key 'message, code'
+      log(
+        'Code: ${body.meta.code}, Message: ${body.meta.message}',
+        name: 'signUp',
+        error: body.errors,
+      );
+
+      return UserModel.fromJson(body.data);
+    } on DioError catch (e) {
+      log(
+        'Code: ${e.response?.statusCode}, Message: ${e.response?.statusMessage}',
+        name: 'signUp',
+        error: e.response?.statusMessage,
+      );
+
+      if (e.response?.statusCode == 422) {
+        throw InvalidCredentialException();
+      }
+
+      if (e.response?.statusCode == 409) {
+        throw EmailAlreadyExistException();
+      }
+
       throw ServerException();
     }
-
-    final body = ApiResponse.fromJson(response.data);
-
-    // log body meta message with key 'message, code'
-    log(
-      'Code: ${body.meta.code}, Message: ${body.meta.message}',
-      name: 'signUp',
-      error: body.errors,
-    );
-
-    return UserModel.fromJson(body.data);
   }
 }

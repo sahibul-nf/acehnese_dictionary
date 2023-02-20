@@ -28,3 +28,7 @@ class InvalidCredentialFailure extends Failure {
 class UnauthorizedFailure extends Failure {
   const UnauthorizedFailure(String message) : super(message);
 }
+
+class EmailAlreadyExistFailure extends Failure {
+  const EmailAlreadyExistFailure(String message) : super(message);
+}

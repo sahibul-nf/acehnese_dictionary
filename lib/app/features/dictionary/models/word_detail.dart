@@ -18,7 +18,9 @@ class WordDetail {
         aceh: json["aceh"],
         indonesia: json["indonesia"],
         english: json["english"],
-        imagesUrl: List<String>.from(json["images_url"].map((x) => x)),
+        imagesUrl: json['images_url'] != null
+            ? List<String>.from(json["images_url"].map((x) => x))
+            : null,
       );
 
   Map<String, dynamic> toJson() => {

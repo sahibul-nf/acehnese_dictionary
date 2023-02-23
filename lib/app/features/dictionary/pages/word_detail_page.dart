@@ -70,32 +70,57 @@ class WordDetailPage extends GetView<DictionaryController> {
                             ],
                           ),
                         )
-                      : PageView.builder(
-                          key: const Key('pageview'),
-                          controller: controller.pageController,
-                          itemCount:
-                              controller.wordDetail.imagesUrl?.length ?? 0,
-                          itemBuilder: (context, index) {
-                            return CachedNetworkImage(
-                              imageUrl: controller.wordDetail.imagesUrl![index],
-                              fit: BoxFit.cover,
-                              height: double.infinity,
-                              width: double.infinity,
-                              placeholder: (context, url) {
-                                return Center(
-                                  child:
-                                      LoadingAnimationWidget.threeArchedCircle(
-                                    color: AppColor.primary,
-                                    size: 20,
-                                  ),
+                      : (controller.wordDetail.imagesUrl != null)
+                          ? PageView.builder(
+                              key: const Key('pageview'),
+                              controller: controller.pageController,
+                              itemCount:
+                                  controller.wordDetail.imagesUrl?.length ?? 0,
+                              itemBuilder: (context, index) {
+                                return CachedNetworkImage(
+                                  imageUrl:
+                                      controller.wordDetail.imagesUrl![index],
+                                  fit: BoxFit.cover,
+                                  height: double.infinity,
+                                  width: double.infinity,
+                                  placeholder: (context, url) {
+                                    return Center(
+                                      child: LoadingAnimationWidget
+                                          .threeArchedCircle(
+                                        color: AppColor.primary,
+                                        size: 20,
+                                      ),
+                                    );
+                                  },
+                                  errorWidget: (context, url, error) {
+                                    return const Icon(
+                                        Icons.broken_image_rounded);
+                                  },
                                 );
                               },
-                              errorWidget: (context, url, error) {
-                                return const Icon(Icons.broken_image_rounded);
-                              },
+                            )
+                          : Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    UniconsLine.image,
+                                    size: 55,
+                                    color: AppColor.secondary,
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    'No Image',
+                                    style: GoogleFonts.poppins(
+                                      color: AppColor.secondary,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 50),
+                                ],
+                              ),
                             );
-                          },
-                        );
             },
           ),
           Align(

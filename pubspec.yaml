@@ -11,10 +11,12 @@ environment:
 
 dependencies:
   arkit_plugin: ^1.0.5
+  auto_size_text: ^3.0.0
   cached_network_image: ^3.2.2
   connectivity_plus: ^3.0.2
   convenient_test: ^1.2.1
   dartz: ^0.10.1
+  device_preview: ^1.1.0
   dio: ^4.0.6
   equatable: ^2.0.5
   flutter:
@@ -24,7 +26,6 @@ dependencies:
   get: ^4.6.1
   get_storage: ^2.0.3
   google_fonts: ^2.2.0
-  # google_mobile_ads: ^1.0.1
   http: ^0.13.4
   like_button: ^2.0.5
   loading_animation_widget: ^1.2.0+3

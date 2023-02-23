@@ -2,6 +2,7 @@ import 'package:acehnese_dictionary/app/features/auth/pages/auth_check.dart';
 import 'package:acehnese_dictionary/app/routes/app_pages.dart';
 import 'package:acehnese_dictionary/app/utils/color.dart';
 import 'package:convenient_test/convenient_test.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 
@@ -15,6 +16,8 @@ class MyApp extends StatelessWidget {
     return ConvenientTestWrapperWidget(
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
+        useInheritedMediaQuery: true,
+        builder: DevicePreview.appBuilder,
         theme: ThemeData(
           primaryColor: AppColor.primary,
           scaffoldBackgroundColor: AppColor.background,

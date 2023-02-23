@@ -3,6 +3,7 @@ import 'package:acehnese_dictionary/app/features/search/pages/search_page.dart';
 import 'package:acehnese_dictionary/app/features/user_profile/pages/profile_page.dart';
 import 'package:acehnese_dictionary/app/utils/color.dart';
 import 'package:acehnese_dictionary/app/utils/typography.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:unicons/unicons.dart';
@@ -35,17 +36,17 @@ class _FeaturesState extends State<Features> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
         ),
-        // padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 5),
         child: SalomonBottomBar(
-          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
           currentIndex: _selectedIndex,
           onTap: (index) => setState(() => _selectedIndex = index),
-          itemPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          itemPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           unselectedItemColor: AppColor.secondary,
           items: [
             SalomonBottomBarItem(
               icon: const Icon(UniconsLine.search),
-              title: Text(
+              title: AutoSizeText(
                 "Search",
                 key: const Key('searchPage'),
                 style: AppTypography.fontStyle(
@@ -57,7 +58,7 @@ class _FeaturesState extends State<Features> {
             ),
             SalomonBottomBarItem(
               icon: const Icon(UniconsLine.list_ul),
-              title: Text(
+              title: AutoSizeText(
                 "Words",
                 key: const Key('wordListPage'),
                 style: AppTypography.fontStyle(
@@ -69,7 +70,7 @@ class _FeaturesState extends State<Features> {
             ),
             SalomonBottomBarItem(
               icon: const Icon(UniconsLine.bookmark),
-              title: Text(
+              title: AutoSizeText(
                 "Bookmark",
                 key: const Key('bookmarkPage'),
                 style: AppTypography.fontStyle(
@@ -81,7 +82,7 @@ class _FeaturesState extends State<Features> {
             ),
             SalomonBottomBarItem(
               icon: const Icon(UniconsLine.user),
-              title: Text(
+              title: AutoSizeText(
                 "Profile",
                 key: const Key('profilePage'),
                 style: AppTypography.fontStyle(

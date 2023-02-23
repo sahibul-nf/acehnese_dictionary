@@ -41,86 +41,88 @@ class WordDetailPage extends GetView<DictionaryController> {
           // pageview full image background from network cache image
           Obx(
             () {
-              return (controller.isLoadWordDetail)
-                  ? Center(
-                      child: LoadingAnimationWidget.prograssiveDots(
-                        color: AppColor.secondary,
-                        size: 30,
-                      ),
-                    )
-                  : (controller.isError)
-                      ? Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(
-                                UniconsLine.exclamation_triangle,
-                                size: 50,
-                                color: AppColor.secondary,
-                              ),
-                              const SizedBox(height: 10),
-                              Text(
-                                'No Data Found',
-                                style: GoogleFonts.poppins(
-                                  color: AppColor.secondary,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
+              if (controller.isLoadWordDetail) {
+                return Center(
+                  child: LoadingAnimationWidget.prograssiveDots(
+                    color: AppColor.secondary,
+                    size: 30,
+                  ),
+                );
+              } else {
+                if (controller.isError) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          UniconsLine.exclamation_triangle,
+                          size: 50,
+                          color: AppColor.secondary,
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          'No Data Found',
+                          style: GoogleFonts.poppins(
+                            color: AppColor.secondary,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
                           ),
-                        )
-                      : (controller.wordDetail.imagesUrl != null)
-                          ? PageView.builder(
-                              key: const Key('pageview'),
-                              controller: controller.pageController,
-                              itemCount:
-                                  controller.wordDetail.imagesUrl?.length ?? 0,
-                              itemBuilder: (context, index) {
-                                return CachedNetworkImage(
-                                  imageUrl:
-                                      controller.wordDetail.imagesUrl![index],
-                                  fit: BoxFit.cover,
-                                  height: double.infinity,
-                                  width: double.infinity,
-                                  placeholder: (context, url) {
-                                    return Center(
-                                      child: LoadingAnimationWidget
-                                          .threeArchedCircle(
-                                        color: AppColor.primary,
-                                        size: 20,
-                                      ),
-                                    );
-                                  },
-                                  errorWidget: (context, url, error) {
-                                    return const Icon(
-                                        Icons.broken_image_rounded);
-                                  },
-                                );
-                              },
-                            )
-                          : Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    UniconsLine.image,
-                                    size: 55,
-                                    color: AppColor.secondary,
-                                  ),
-                                  const SizedBox(height: 10),
-                                  Text(
-                                    'No Image',
-                                    style: GoogleFonts.poppins(
-                                      color: AppColor.secondary,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 50),
-                                ],
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  if (controller.wordDetail.imagesUrl != null) {
+                    return PageView.builder(
+                      key: const Key('pageview'),
+                      controller: controller.pageController,
+                      itemCount: controller.wordDetail.imagesUrl?.length ?? 0,
+                      itemBuilder: (context, index) {
+                        return CachedNetworkImage(
+                          imageUrl: controller.wordDetail.imagesUrl![index],
+                          fit: BoxFit.cover,
+                          height: double.infinity,
+                          width: double.infinity,
+                          placeholder: (context, url) {
+                            return Center(
+                              child: LoadingAnimationWidget.threeArchedCircle(
+                                color: AppColor.primary,
+                                size: 20,
                               ),
                             );
+                          },
+                          errorWidget: (context, url, error) {
+                            return const Icon(Icons.broken_image_rounded);
+                          },
+                        );
+                      },
+                    );
+                  } else {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            UniconsLine.image,
+                            size: 55,
+                            color: AppColor.secondary,
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            'No Image',
+                            style: GoogleFonts.poppins(
+                              color: AppColor.secondary,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const SizedBox(height: 50),
+                        ],
+                      ),
+                    );
+                  }
+                }
+              }
             },
           ),
           Align(

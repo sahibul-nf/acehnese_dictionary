@@ -61,6 +61,7 @@ class DictionaryController extends GetxController {
         );
       },
       (r) {
+        _isError.value = false;
         _wordList.assignAll(r.words);
       },
     );
@@ -88,6 +89,7 @@ class DictionaryController extends GetxController {
         );
       },
       (r) {
+        _isError.value = false;
         _wordDetail.value = r;
       },
     );

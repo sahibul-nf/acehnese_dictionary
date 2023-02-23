@@ -59,13 +59,7 @@ void main() {
             'email': email,
             'password': password,
           }),
-        ).thenAnswer(
-          (_) async => Response(
-            requestOptions: RequestOptions(path: url),
-            data: jsonDecode(fixture('sign_in_response.json')),
-            statusCode: 500,
-          ),
-        );
+        ).thenThrow(ServerException());
 
         // act
         final call = authRemoteDataSource.signIn;
@@ -85,7 +79,7 @@ void main() {
     final name = 'test_$id';
     const password = 'test';
 
-    test('should return true when the response is 200', () async {
+    test('should return UserModel when the response is 200', () async {
       // arrange
       when(
         () => mockDio.post(url, data: {
@@ -120,13 +114,7 @@ void main() {
           'email': email,
           'password': password,
         }),
-      ).thenAnswer(
-        (_) async => Response(
-          requestOptions: RequestOptions(path: url),
-          data: jsonDecode(fixture('sign_up_response.json')),
-          statusCode: 500,
-        ),
-      );
+      ).thenThrow(ServerException());
 
       // act
       final call = authRemoteDataSource.signUp;

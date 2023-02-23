@@ -54,14 +54,10 @@ void main() {
       expect(result, isEmpty);
     });
 
-    test('should throw ServerException when the response is 404 or other',
+    test('should throw ServerException when the response is not 200 or 204',
         () async {
       // arrange
-      when(() => mockDio.get(url)).thenAnswer((_) async => Response(
-            requestOptions: RequestOptions(path: url),
-            statusCode: 404,
-            statusMessage: 'Not Found',
-          ));
+      when(() => mockDio.get(url)).thenThrow(ServerException());
 
       // act
       final call = searchRemoteDataSource.search(query, algorithm);

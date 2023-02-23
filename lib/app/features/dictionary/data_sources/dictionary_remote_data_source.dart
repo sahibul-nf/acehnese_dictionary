@@ -40,20 +40,25 @@ class DictionaryRemoteDataSourceImpl extends DictionaryRemoteDataSource {
 
   @override
   Future<WordDetail> getWordDetail(int wordId) async {
-    final response = await dio.get(Api.baseUrl + ApiPath.getWordDetail(wordId));
+    try {
+      final response =
+          await dio.get(Api.baseUrl + ApiPath.getWordDetail(wordId));
 
-    if (response.statusCode == 200) {
       final body = ApiResponse.fromJson(response.data);
       // log body meta message with key 'message, code'
-      log(
-        'Code: ${body.meta.code}, Message: ${body.meta.message}',
-        name: 'getAllWords',
-        error: body.errors,
-      );
+      log("Request GET: ${response.requestOptions.uri}", name: "getWordDetail");
+      log("Request Headers: ${response.requestOptions.headers}",
+          name: "getWordDetail");
+      log("Response: ${response.data['meta']['message']}",
+          name: "getWordDetail", time: DateTime.now());
 
-      final data = WordDetail.fromJson(body.data);
-      return data;
-    } else {
+      return WordDetail.fromJson(body.data);
+    } on DioError catch (e) {
+      log("Request GET: ${e.response?.realUri}", name: "getWordDetail");
+      log("Request Headers: ${e.response?.headers}", name: "getWordDetail");
+      log("Response: ${e.response?.data['meta']['message']}",
+          name: "getWordDetail", time: DateTime.now());
+
       throw ServerException();
     }
   }

@@ -68,7 +68,8 @@ void main() {
             equals(const Left(ConnectionFailure('No internet connection'))));
       });
 
-      test('should return ServerFailure when server is down', () async {
+      test('should return ServerFailure when server is down or error',
+          () async {
         // arrange
         when(() => mockDictionaryRemoteDataSource.getAllWords())
             .thenThrow(ServerException());
@@ -83,20 +84,20 @@ void main() {
     });
 
     // test getWordById
-    final tWordId = 1;
-    final tWordDetail = WordDetail(
-      id: 1,
-      aceh: "yup babah",
-      indonesia: "bersiul",
-      english: "whistle",
-      imagesUrl: [
-        "https://images.unsplash.com/photo-1598284820582-b0705245e222?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzODA2NDd8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NzY3NTY5Njc&ixlib=rb-4.0.3&q=80&w=1080",
-        "https://images.unsplash.com/photo-1598284820665-1f2dca3fe768?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzODA2NDd8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NzY3NTY5Njc&ixlib=rb-4.0.3&q=80&w=1080",
-        "https://images.unsplash.com/photo-1627838879678-ce37d6b84ce0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzODA2NDd8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NzY3NTY5Njc&ixlib=rb-4.0.3&q=80&w=1080"
-      ],
-    );
-
     group('getWordById', () {
+      const tWordId = 1;
+      final tWordDetail = WordDetail(
+        id: 1,
+        aceh: "yup babah",
+        indonesia: "bersiul",
+        english: "whistle",
+        imagesUrl: [
+          "https://images.unsplash.com/photo-1598284820582-b0705245e222?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzODA2NDd8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NzY3NTY5Njc&ixlib=rb-4.0.3&q=80&w=1080",
+          "https://images.unsplash.com/photo-1598284820665-1f2dca3fe768?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzODA2NDd8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NzY3NTY5Njc&ixlib=rb-4.0.3&q=80&w=1080",
+          "https://images.unsplash.com/photo-1627838879678-ce37d6b84ce0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzODA2NDd8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NzY3NTY5Njc&ixlib=rb-4.0.3&q=80&w=1080"
+        ],
+      );
+
       test('should return WordDetail when getWordById successfully', () async {
         // arrange
         when(() => mockDictionaryRemoteDataSource.getWordDetail(tWordId))
@@ -126,7 +127,7 @@ void main() {
             equals(const Left(ConnectionFailure('No internet connection'))));
       });
 
-      test('should return ServerFailure when server is down', () async {
+      test('should return ServerFailure when server is down or error', () async {
         // arrange
         when(() => mockDictionaryRemoteDataSource.getWordDetail(tWordId))
             .thenThrow(ServerException());

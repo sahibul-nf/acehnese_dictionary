@@ -40,13 +40,10 @@ void main() {
         expect(result, isA<GetAllWordsModel>());
       });
 
-      test('should throw ServerException when the response is 404 or other',
+      test('should throw ServerException when the response is not 200',
           () async {
         // arrange
-        when(() => mockDio.get(url)).thenAnswer((_) async => Response(
-              requestOptions: RequestOptions(path: url),
-              statusCode: 404,
-            ));
+        when(() => mockDio.get(url)).thenThrow(ServerException());
 
         // act
         final call = dictionaryRemoteDataSource.getAllWords;
@@ -76,13 +73,9 @@ void main() {
       expect(result, isA<WordDetail>());
     });
 
-    test('should throw ServerException when the response is 404 or other',
-        () async {
+    test('should throw ServerException when the response is not 200', () async {
       // arrange
-      when(() => mockDio.get(url)).thenAnswer((_) async => Response(
-            requestOptions: RequestOptions(path: url),
-            statusCode: 404,
-          ));
+      when(() => mockDio.get(url)).thenThrow(ServerException());
 
       // act
       final call = dictionaryRemoteDataSource.getWordDetail;

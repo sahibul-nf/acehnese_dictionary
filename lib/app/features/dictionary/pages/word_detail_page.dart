@@ -119,6 +119,7 @@ class WordDetailPage extends GetView<DictionaryController> {
                 ),
                 const SizedBox(height: 30),
                 Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   padding: const EdgeInsets.symmetric(
                     horizontal: 30,
                     vertical: 24,
@@ -128,7 +129,6 @@ class WordDetailPage extends GetView<DictionaryController> {
                     color: Colors.white.withOpacity(0.9),
                     borderRadius: BorderRadius.circular(36),
                   ),
-                  margin: const EdgeInsets.symmetric(horizontal: 24),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,

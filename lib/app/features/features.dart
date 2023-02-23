@@ -32,9 +32,12 @@ class _FeaturesState extends State<Features> {
     return Scaffold(
       body: feats[_selectedIndex],
       bottomNavigationBar: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 5),
         child: SalomonBottomBar(

@@ -1,6 +1,7 @@
 import 'package:acehnese_dictionary/app/routes/app_routes.dart';
 import 'package:acehnese_dictionary/app/utils/typography.dart';
 import 'package:acehnese_dictionary/app/widgets/primary_button.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/route_manager.dart';
@@ -20,10 +21,10 @@ class NoLoggedInScreen extends StatelessWidget {
         children: [
           SvgPicture.asset(
             image,
-            width: 200,
+            width: MediaQuery.of(context).size.height * .25,
           ),
-          const SizedBox(height: 70),
-          Text(
+          const Flexible(child: SizedBox(height: 70)),
+          AutoSizeText(
             "Oopss, you are not logged in.",
             textAlign: TextAlign.center,
             style: AppTypography.fontStyle(
@@ -31,8 +32,8 @@ class NoLoggedInScreen extends StatelessWidget {
               fontSize: 18,
             ),
           ),
-          const SizedBox(height: 16),
-          Text(
+          const Flexible(child: SizedBox(height: 16)),
+          AutoSizeText(
             message,
             textAlign: TextAlign.center,
             style: AppTypography.fontStyle(
@@ -41,7 +42,7 @@ class NoLoggedInScreen extends StatelessWidget {
               fontSize: 14,
             ),
           ),
-          const SizedBox(height: 50),
+          const Flexible(child: SizedBox(height: 50)),
           // primary button
           PrimaryButton(
             child: Text(
@@ -56,7 +57,7 @@ class NoLoggedInScreen extends StatelessWidget {
               Get.toNamed(AppRoutes.signin);
             },
           ),
-          const SizedBox(height: 40),
+          const Flexible(child: SizedBox(height: 40)),
         ],
       ),
     );

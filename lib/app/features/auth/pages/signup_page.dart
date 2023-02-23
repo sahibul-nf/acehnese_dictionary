@@ -209,7 +209,7 @@ class SignUpPage extends StatelessWidget {
                 () => Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: SizedBox(
-                    height: 60,
+                    height: 55,
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: _authController.requestState ==
@@ -271,7 +271,7 @@ class SignUpPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: SizedBox(
-                  height: 60,
+                  height: 55,
                   width: double.infinity,
                   child: OutlinedButton(
                     onPressed: () {

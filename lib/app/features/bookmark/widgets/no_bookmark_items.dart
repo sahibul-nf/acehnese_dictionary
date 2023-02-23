@@ -13,9 +13,9 @@ class EmptyBookmark extends StatelessWidget {
         children: [
           SvgPicture.asset(
             'assets/images/empty_bookmark.svg',
-            width: 250,
+            width: MediaQuery.of(context).size.height * .25,
           ),
-          const SizedBox(height: 70),
+          const Flexible(child: SizedBox(height: 70)),
           Text(
             "Oopss, you don't have \nany bookmark.",
             textAlign: TextAlign.center,
@@ -24,7 +24,7 @@ class EmptyBookmark extends StatelessWidget {
               fontSize: 18,
             ),
           ),
-          const SizedBox(height: 16),
+          const Flexible(child: SizedBox(height: 16)),
           Text(
             "You can bookmark your \nfavorite words and save them \nin your account.",
             textAlign: TextAlign.center,

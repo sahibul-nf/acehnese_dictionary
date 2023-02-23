@@ -9,11 +9,11 @@ void main() async {
   // Initialize Mobile Ads
   // MobileAds.instance.initialize();
 
-  // set full screen
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-
   // Initialize GetStorage
   await GetStorage.init();
+
+  // set full screen
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
   runApp(const MyApp());
 }

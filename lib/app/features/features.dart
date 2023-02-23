@@ -29,8 +29,6 @@ class _FeaturesState extends State<Features> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-
     return Scaffold(
       body: feats[_selectedIndex],
       bottomNavigationBar: Container(

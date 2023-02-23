@@ -1,10 +1,10 @@
 {
     "name": "acehnese_dictionary",
     "short_name": "acehnese_dictionary",
-    "start_url": ".",
+    "start_url": "index.html?fullscreen=true",
     "display": "fullscreen",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
+    "background_color": "white",
+    "theme_color": "black",
     "description": "A new Flutter project.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,

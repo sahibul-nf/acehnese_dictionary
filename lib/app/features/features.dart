@@ -4,6 +4,7 @@ import 'package:acehnese_dictionary/app/features/user_profile/pages/profile_page
 import 'package:acehnese_dictionary/app/utils/color.dart';
 import 'package:acehnese_dictionary/app/utils/typography.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:unicons/unicons.dart';
 
@@ -28,6 +29,8 @@ class _FeaturesState extends State<Features> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
     return Scaffold(
       body: feats[_selectedIndex],
       bottomNavigationBar: Container(

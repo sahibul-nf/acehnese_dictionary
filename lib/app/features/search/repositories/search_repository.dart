@@ -13,7 +13,6 @@ abstract class SearchRepository {
 }
 
 class SearchRepositoryImpl implements SearchRepository {
-  // final RestApiService restApiService;
   final SearchRemoteDataSource remoteDataSource;
 
   SearchRepositoryImpl({required this.remoteDataSource});
@@ -22,30 +21,7 @@ class SearchRepositoryImpl implements SearchRepository {
   Future<Either<Failure, List<RecommendationWordModel>>> search(
       String query, String algorithm) async {
     try {
-      // final connectifityResult = await Connectivity().checkConnectivity();
-      // if (connectifityResult == ConnectivityResult.none) {
-      //   return const Left(ConnectionFailure('No internet connection'));
-      // }
-
       final result = await remoteDataSource.search(query, algorithm);
-
-      // if (response.statusCode == 204) {
-      //   return const Right([]);
-      // }
-
-      // final body = ApiResponse.fromJson(response.data);
-      // log body meta message with key 'message, code'
-      // log(
-      //   'Code: ${body.meta.code}, Message: ${body.meta.message}',
-      //   name: 'getAllWords',
-      //   error: body.errors,
-      // );
-
-      // final data = body.data
-      //     .map<RecommendationWordModel>(
-      //         (e) => RecommendationWordModel.fromJson(e))
-      //     .toList();
-
       return Right(result);
     } on SocketException catch (_) {
       return const Left(ConnectionFailure('No internet connection'));

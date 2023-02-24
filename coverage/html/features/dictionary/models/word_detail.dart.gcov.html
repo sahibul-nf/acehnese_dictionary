@@ -31,13 +31,13 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">7</td>
-            <td class="headerCovTableEntry">13</td>
-            <td class="headerCovTableEntryLo">53.8 %</td>
+            <td class="headerCovTableEntry">8</td>
+            <td class="headerCovTableEntry">14</td>
+            <td class="headerCovTableEntryLo">57.1 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-02-21 03:38:56</td>
+            <td class="headerValue">2023-02-25 01:22:58</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -80,17 +80,19 @@
 <a name="18"><span class="lineNum">      18 </span><span class="lineCov">          1 :         aceh: json[&quot;aceh&quot;],</span></a>
 <a name="19"><span class="lineNum">      19 </span><span class="lineCov">          1 :         indonesia: json[&quot;indonesia&quot;],</span></a>
 <a name="20"><span class="lineNum">      20 </span><span class="lineCov">          1 :         english: json[&quot;english&quot;],</span></a>
-<a name="21"><span class="lineNum">      21 </span><span class="lineCov">          4 :         imagesUrl: List&lt;String&gt;.from(json[&quot;images_url&quot;].map((x) =&gt; x)),</span></a>
-<a name="22"><span class="lineNum">      22 </span>            :       );</a>
-<a name="23"><span class="lineNum">      23 </span>            : </a>
-<a name="24"><span class="lineNum">      24 </span><span class="lineNoCov">          0 :   Map&lt;String, dynamic&gt; toJson() =&gt; {</span></a>
-<a name="25"><span class="lineNum">      25 </span><span class="lineNoCov">          0 :         &quot;id&quot;: id,</span></a>
-<a name="26"><span class="lineNum">      26 </span><span class="lineNoCov">          0 :         &quot;aceh&quot;: aceh,</span></a>
-<a name="27"><span class="lineNum">      27 </span><span class="lineNoCov">          0 :         &quot;indonesia&quot;: indonesia,</span></a>
-<a name="28"><span class="lineNum">      28 </span><span class="lineNoCov">          0 :         &quot;english&quot;: english,</span></a>
-<a name="29"><span class="lineNum">      29 </span><span class="lineNoCov">          0 :         &quot;images_url&quot;: List&lt;dynamic&gt;.from(imagesUrl!.map((x) =&gt; x)),</span></a>
-<a name="30"><span class="lineNum">      30 </span>            :       };</a>
-<a name="31"><span class="lineNum">      31 </span>            : }</a>
+<a name="21"><span class="lineNum">      21 </span><span class="lineCov">          1 :         imagesUrl: json['images_url'] != null</span></a>
+<a name="22"><span class="lineNum">      22 </span><span class="lineCov">          4 :             ? List&lt;String&gt;.from(json[&quot;images_url&quot;].map((x) =&gt; x))</span></a>
+<a name="23"><span class="lineNum">      23 </span>            :             : null,</a>
+<a name="24"><span class="lineNum">      24 </span>            :       );</a>
+<a name="25"><span class="lineNum">      25 </span>            : </a>
+<a name="26"><span class="lineNum">      26 </span><span class="lineNoCov">          0 :   Map&lt;String, dynamic&gt; toJson() =&gt; {</span></a>
+<a name="27"><span class="lineNum">      27 </span><span class="lineNoCov">          0 :         &quot;id&quot;: id,</span></a>
+<a name="28"><span class="lineNum">      28 </span><span class="lineNoCov">          0 :         &quot;aceh&quot;: aceh,</span></a>
+<a name="29"><span class="lineNum">      29 </span><span class="lineNoCov">          0 :         &quot;indonesia&quot;: indonesia,</span></a>
+<a name="30"><span class="lineNum">      30 </span><span class="lineNoCov">          0 :         &quot;english&quot;: english,</span></a>
+<a name="31"><span class="lineNum">      31 </span><span class="lineNoCov">          0 :         &quot;images_url&quot;: List&lt;dynamic&gt;.from(imagesUrl!.map((x) =&gt; x)),</span></a>
+<a name="32"><span class="lineNum">      32 </span>            :       };</a>
+<a name="33"><span class="lineNum">      33 </span>            : }</a>
 </pre>
       </td>
     </tr>

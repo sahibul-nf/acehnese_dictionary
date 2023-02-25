@@ -3,6 +3,7 @@ import 'package:acehnese_dictionary/app/features/auth/models/auth_model.dart';
 import 'package:acehnese_dictionary/app/features/auth/pages/auth_check.dart';
 import 'package:acehnese_dictionary/app/features/auth/respositories/auth_repository.dart';
 import 'package:acehnese_dictionary/app/features/user_profile/controllers/user_controller.dart';
+import 'package:acehnese_dictionary/app/features/user_profile/data_sources/user_remote_data_source.dart';
 import 'package:acehnese_dictionary/app/features/user_profile/repositories/user_repositories.dart';
 import 'package:acehnese_dictionary/app/routes/app_routes.dart';
 import 'package:acehnese_dictionary/app/utils/color.dart';
@@ -17,7 +18,8 @@ enum AuthState { login, logout, expired, unknown }
 class AuthController extends GetxController {
   final _authRepositoryImpl =
       AuthRepositoryImpl(remoteDataSource: AuthRemoteDataSourceImpl(null));
-  final _userRepositoryImpl = UserRepositoryImpl();
+  final _userRepositoryImpl =
+      UserRepositoryImpl(remoteDataSource: UserProfileRemoteDataSource(null));
 
   final Rx<AuthModel?> _authModel = Rx<AuthModel?>(null);
 

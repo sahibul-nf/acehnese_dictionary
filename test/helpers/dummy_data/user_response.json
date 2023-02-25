@@ -1,0 +1,14 @@
+{
+    "meta": {
+        "message": "Successfully to get user",
+        "code": 200,
+        "status": "OK"
+    },
+    "errors": null,
+    "data": {
+        "id": 20,
+        "name": "Sahibul",
+        "email": "sahibul@gmail.com",
+        "avatar_url": ""
+    }
+}

@@ -37,8 +37,8 @@ void main() {
       bookmarkRobot = BookmarkRobot(tester: tester);
       profileRobot = ProfileRobot(tester: tester);
 
-      const email = "pass123@gmail.com";
-      const password = "pass123";
+      const email = "sahibul@gmail.com";
+      const password = "sahibul";
 
       // ====================== System Testing ======================
       // Display the splash screen
@@ -183,7 +183,7 @@ void main() {
       await addDelay(3000);
 
       // Delay for 3 seconds before exit
-      await exit(tester);
+      await exit(tester, "Registered user");
     });
   });
 
@@ -203,7 +203,7 @@ void main() {
 
       const name = "Sahibul";
       const email = "pass123@gmail.com";
-      const password = "pass";
+      const password = "pass123";
 
       // ====================== System Testing ======================
       // Test displays the splash screen
@@ -302,7 +302,7 @@ void main() {
       await addDelay(3000);
 
       // Delay for 3 seconds before exit
-      await exit(tester);
+      await exit(tester, "Unregistered user");
     });
   });
 }
@@ -311,8 +311,9 @@ Future<void> addDelay(int ms) async {
   await Future<void>.delayed(Duration(milliseconds: ms));
 }
 
-Future<void> exit(WidgetTester tester) async {
+Future<void> exit(WidgetTester tester, String testCase) async {
   tester.printToConsole("==================================");
+  tester.printToConsole("Test case: $testCase");
   tester.printToConsole("All test passed");
   tester.printToConsole("==================================");
   tester.printToConsole("Exit in 3 seconds");

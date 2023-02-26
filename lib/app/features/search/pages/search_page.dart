@@ -147,11 +147,14 @@ class SearchPage extends StatelessWidget {
                               ],
                             ),
                             child: (controller.isLoading)
-                                ? Center(
-                                    child:
-                                        LoadingAnimationWidget.prograssiveDots(
-                                      color: AppColor.secondary,
-                                      size: 30,
+                                ? SizedBox(
+                                    height: 40,
+                                    child: Center(
+                                      child: LoadingAnimationWidget
+                                          .prograssiveDots(
+                                        color: AppColor.secondary ,
+                                        size: 30,
+                                      ),
                                     ),
                                   )
                                 : Column(

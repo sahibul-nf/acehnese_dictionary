@@ -1,0 +1,13 @@
+{
+    "meta": {
+        "message": "Successfully to mark word",
+        "code": 200,
+        "status": "OK"
+    },
+    "errors": null,
+    "data": {
+        "id": 102,
+        "user_id": 20,
+        "dictionary_id": 6151
+    }
+}

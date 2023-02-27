@@ -114,7 +114,7 @@ class BookmarkRepositoryImpl implements BookmarkRepository {
 
     try {
       final response = await RestApiService().postDio(
-        Api.baseUrl + ApiPath.addWordToBookmark(),
+        Api.baseUrl + ApiPath.markOrUnmarkWord(),
         body: {'dictionary_id': dictionaryId},
       );
 

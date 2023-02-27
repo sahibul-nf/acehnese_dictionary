@@ -1,6 +1,8 @@
 
 import 'package:acehnese_dictionary/app/features/auth/data_sources/auth_remote_data_source.dart';
 import 'package:acehnese_dictionary/app/features/auth/respositories/auth_repository.dart';
+import 'package:acehnese_dictionary/app/features/bookmark/data_sources/bookmark_remote_data_source.dart';
+import 'package:acehnese_dictionary/app/features/bookmark/repositories/bookmark_repository.dart';
 import 'package:acehnese_dictionary/app/features/dictionary/data_sources/dictionary_remote_data_source.dart';
 import 'package:acehnese_dictionary/app/features/dictionary/repositories/dictionary_repository.dart';
 import 'package:acehnese_dictionary/app/features/search/data_sources/search_remote_data_source.dart';
@@ -29,3 +31,7 @@ class MockAuthRepositoryImpl extends Mock implements AuthRepositoryImpl {}
 // User
 class MockUserRemoteDataSource extends Mock implements UserProfileRemoteDataSource {}
 class MockUserRepositoryImpl extends Mock implements UserRepositoryImpl {}
+
+// Bookmark
+class MockBookmarkRemoteDataSource extends Mock implements BookmarkRemoteDataSourceImpl {}
+class MockBookmarkRepositoryImpl extends Mock implements BookmarkRepositoryImpl {}

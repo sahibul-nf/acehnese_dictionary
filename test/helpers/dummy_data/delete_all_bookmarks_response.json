@@ -1,0 +1,9 @@
+{
+    "meta": {
+        "message": "Successfully to delete all marked words",
+        "code": 200,
+        "status": "OK"
+    },
+    "errors": null,
+    "data": null
+}

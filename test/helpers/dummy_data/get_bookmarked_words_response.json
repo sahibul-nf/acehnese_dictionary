@@ -1,0 +1,21 @@
+{
+    "meta": {
+        "message": "Successfully to get marked words",
+        "code": 200,
+        "status": "OK"
+    },
+    "errors": null,
+    "data": [
+        {
+            "id": 105,
+            "user_id": 20,
+            "dictionary": {
+                "id": 1,
+                "aceh": "yup babah",
+                "indonesia": "bersiul",
+                "english": "whistle",
+                "images_url": null
+            }
+        }
+    ]
+}

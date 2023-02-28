@@ -37,6 +37,7 @@ class BookmarkRepositoryImpl implements BookmarkRepository {
     }
   }
 
+  // TODO: refactor this method to use remoteDataSource
   @override
   Future<Either<Failure, List<Bookmarks>>> getBookmarks() async {
     final connectivityResult = await Connectivity().checkConnectivity();
@@ -82,6 +83,7 @@ class BookmarkRepositoryImpl implements BookmarkRepository {
     }
   }
 
+  // TODO: refactor this method to use remoteDataSource
   @override
   Future<Either<Failure, bool>> removeAllBookmark() async {
     final connectivityResult = await Connectivity().checkConnectivity();

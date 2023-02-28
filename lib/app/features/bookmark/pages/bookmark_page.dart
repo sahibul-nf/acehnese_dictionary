@@ -205,7 +205,7 @@ class BookmarkPage extends StatelessWidget {
               );
 
               Future.delayed(const Duration(seconds: 1), () {
-                controller.addWordToBookmark(id).then((value) {
+                controller.markOrUnmarkWord(id).then((value) {
                   Get.back();
 
                   if (value) {

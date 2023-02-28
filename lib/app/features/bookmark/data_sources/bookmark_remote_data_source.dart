@@ -8,7 +8,7 @@ import 'package:acehnese_dictionary/app/utils/services/local_storage_service.dar
 import 'package:dio/dio.dart';
 
 abstract class BookmarkRemoteDataSource {
-  Future<Bookmark?> getMarkedWord(int dictionaryId);
+  Future<Bookmark> getMarkedWord(int dictionaryId);
   Future<List<Bookmarks>> getBookmarks();
   Future<Bookmark> markOrUnmarkWord(int dictionaryId);
   Future<bool> removeAllBookmark();
@@ -38,6 +38,10 @@ class BookmarkRemoteDataSourceImpl implements BookmarkRemoteDataSource {
       log("Request Headers: ${response.headers}", name: "addWordToBookmark");
       log("Response: ${body.meta.message}",
           name: "addWordToBookmark", time: DateTime.now());
+
+      if (body.data == null) {
+        return Bookmark();
+      }
 
       return Bookmark.fromJson(body.data);
     } on DioError catch (e) {
@@ -83,17 +87,11 @@ class BookmarkRemoteDataSourceImpl implements BookmarkRemoteDataSource {
   }
 
   @override
-  Future<Bookmark?> getMarkedWord(int dictionaryId) async {
+  Future<Bookmark> getMarkedWord(int dictionaryId) async {
     try {
       final response = await dio.get(
         Api.baseUrl + ApiPath.getMarkedWord(),
         queryParameters: {'dictionary_id': dictionaryId},
-        // options: Options(
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //     'Authorization': 'Bearer ${LocalStorageService.getToken()}',
-        //   },
-        // ),
       );
 
       final body = ApiResponse.fromJson(response.data);
@@ -104,7 +102,7 @@ class BookmarkRemoteDataSourceImpl implements BookmarkRemoteDataSource {
           name: "getMarkedWord", time: DateTime.now());
 
       if (body.data == null) {
-        return null;
+        return Bookmark();
       }
 
       return Bookmark.fromJson(body.data);

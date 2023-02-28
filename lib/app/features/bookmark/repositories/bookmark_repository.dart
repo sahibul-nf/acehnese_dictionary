@@ -1,8 +1,6 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:acehnese_dictionary/app/features/bookmark/data_sources/bookmark_remote_data_source.dart';
-import 'package:acehnese_dictionary/app/features/bookmark/models/bookmark_response.dart';
 import 'package:acehnese_dictionary/app/features/bookmark/models/bookmarks.dart';
 import 'package:acehnese_dictionary/app/utils/failure.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -14,9 +12,9 @@ import '../../../utils/services/rest_api_service.dart';
 import '../models/bookmark.dart';
 
 abstract class BookmarkRepository {
-  Future<Either<Failure, Bookmark?>> getMarkedWord(int dictionaryId);
+  Future<Either<Failure, Bookmark>> getMarkedWord(int dictionaryId);
   Future<Either<Failure, List<Bookmarks>>> getBookmarks();
-  Future<Either<Failure, Bookmark>> addWordToBookmark(int dictionaryId);
+  Future<Either<Failure, Bookmark>> markOrUnmarkWord(int dictionaryId);
   Future<Either<Failure, bool>> removeAllBookmark();
 }
 
@@ -26,7 +24,7 @@ class BookmarkRepositoryImpl implements BookmarkRepository {
   final BookmarkRemoteDataSourceImpl remoteDataSource;
 
   @override
-  Future<Either<Failure, Bookmark?>> getMarkedWord(int dictionaryId) async {
+  Future<Either<Failure, Bookmark>> getMarkedWord(int dictionaryId) async {
     try {
       final result = await remoteDataSource.getMarkedWord(dictionaryId);
       return Right(result);
@@ -71,32 +69,16 @@ class BookmarkRepositoryImpl implements BookmarkRepository {
   }
 
   @override
-  Future<Either<Failure, Bookmark>> addWordToBookmark(int dictionaryId) async {
-    final connectivityResult = await Connectivity().checkConnectivity();
-    if (connectivityResult == ConnectivityResult.none) {
-      return const Left(ConnectionFailure('No Internet Connection'));
-    }
-
+  Future<Either<Failure, Bookmark>> markOrUnmarkWord(int dictionaryId) async {
     try {
-      final response = await RestApiService().postDio(
-        Api.baseUrl + ApiPath.markOrUnmarkWord(),
-        body: {'dictionary_id': dictionaryId},
-      );
-
-      if (response.statusCode != 200) {
-        return Left(ServerFailure(response.data['errors']));
-      }
-
-      final data = response.data['data'];
-      Bookmark bookmark = Bookmark();
-
-      if (data != null) {
-        bookmark = Bookmark.fromJson(data);
-      }
-
-      return Right(bookmark);
-    } on Exception catch (e) {
-      return Left(ServerFailure(e.toString()));
+      final result = await remoteDataSource.markOrUnmarkWord(dictionaryId);
+      return Right(result);
+    } on SocketException {
+      return const Left(ConnectionFailure('No Internet Connection'));
+    } on ServerException {
+      return const Left(ServerFailure(''));
+    } on UnauthorisedException {
+      return const Left(UnauthorizedFailure(''));
     }
   }
 

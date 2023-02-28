@@ -216,10 +216,20 @@ class WordDetailPage extends GetView<DictionaryController> {
                             );
                           }
 
+                          final markUnmarkState =
+                              _bookmarkController.markUnmarkState;
+
                           return LikeButton(
                             key: const Key('bookmark_button'),
                             isLiked: _bookmarkController.isBookmarked(wordId),
                             likeBuilder: (bool isLiked) {
+                              if (markUnmarkState == RequestState.Loading) {
+                                return LoadingAnimationWidget.threeArchedCircle(
+                                  color: AppColor.primary,
+                                  size: 16,
+                                );
+                              }
+
                               return Icon(
                                 isLiked
                                     ? UniconsSolid.bookmark
@@ -281,7 +291,7 @@ class WordDetailPage extends GetView<DictionaryController> {
                                 return false;
                               } else {
                                 final isMarked = await _bookmarkController
-                                    .addWordToBookmark(wordId);
+                                    .markOrUnmarkWord(wordId);
                                 return isMarked;
                               }
                             },

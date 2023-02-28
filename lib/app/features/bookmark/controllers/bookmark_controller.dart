@@ -16,9 +16,11 @@ class BookmarkController extends GetxController {
   final _bookmarks = <Bookmarks>[].obs;
   final _bookmark = Bookmark().obs;
   final _requestState = RequestState.Idle.obs;
+  final _markUnmarkState = RequestState.Idle.obs;
 
   Bookmark get bookmark => _bookmark.value;
   RequestState get requestState => _requestState.value;
+  RequestState get markUnmarkState => _markUnmarkState.value;
 
   List<Bookmarks> get bookmarks => _bookmarks.reversed.toList();
   void addBookmark(Bookmark bookmark) {
@@ -67,30 +69,48 @@ class BookmarkController extends GetxController {
         }
       },
       (bookmark) {
-        _bookmark.value = bookmark ?? Bookmark();
+        _bookmark.value = bookmark;
         _requestState.value = RequestState.Loaded;
       },
     );
   }
 
-  // add word to bookmark
-  Future<bool> addWordToBookmark(int dictionaryId) async {
-    final result = await _bookmarkRepository.addWordToBookmark(dictionaryId);
+  // add word to bookmark or remove from bookmark
+  Future<bool> markOrUnmarkWord(int dictionaryId) async {
+    _markUnmarkState.value = RequestState.Loading;
+    final result = await _bookmarkRepository.markOrUnmarkWord(dictionaryId);
 
-    if (result.isLeft()) {
-      // show snackbar error message
-      Get.snackbar(
-        "Opps",
-        "Something went wrong",
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppColor.error,
-        colorText: Colors.white,
-      );
+    result.fold(
+      (failure) {
+        _markUnmarkState.value = RequestState.Error;
 
-      return false;
-    }
+        if (failure is UnauthorizedFailure) {
+          Get.snackbar(
+            "Opps, your session has expired.",
+            "Please login again!",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: AppColor.error,
+            colorText: Colors.white,
+            duration: const Duration(seconds: 5),
+          );
+        } else {
+          // show snackbar error message
+          Get.snackbar(
+            "Opps",
+            ErrorHandling.handleError(failure),
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: AppColor.error,
+            colorText: Colors.white,
+          );
+        }
 
-    _bookmark.value = result.fold((l) => Bookmark(), (r) => r);
+        return false;
+      },
+      (bookmark) {
+        _bookmark.value = bookmark;
+        _markUnmarkState.value = RequestState.Loaded;
+      },
+    );
 
     return true;
   }

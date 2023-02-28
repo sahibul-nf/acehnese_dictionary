@@ -4,10 +4,11 @@ import 'package:acehnese_dictionary/app/constants/api.dart';
 import 'package:acehnese_dictionary/app/features/bookmark/models/bookmark.dart';
 import 'package:acehnese_dictionary/app/features/bookmark/models/bookmarks.dart';
 import 'package:acehnese_dictionary/app/utils/exception.dart';
+import 'package:acehnese_dictionary/app/utils/services/local_storage_service.dart';
 import 'package:dio/dio.dart';
 
 abstract class BookmarkRemoteDataSource {
-  Future<Bookmark> getMarkedWord(int dictionaryId);
+  Future<Bookmark?> getMarkedWord(int dictionaryId);
   Future<List<Bookmarks>> getBookmarks();
   Future<Bookmark> markOrUnmarkWord(int dictionaryId);
   Future<bool> removeAllBookmark();
@@ -18,6 +19,9 @@ class BookmarkRemoteDataSourceImpl implements BookmarkRemoteDataSource {
 
   BookmarkRemoteDataSourceImpl(Dio? dio) {
     this.dio = dio ?? Dio();
+    this.dio.options.headers['Content-Type'] = 'application/json';
+    this.dio.options.headers['Authorization'] =
+        'Bearer ${LocalStorageService.getToken()}';
   }
 
   @override
@@ -41,6 +45,10 @@ class BookmarkRemoteDataSourceImpl implements BookmarkRemoteDataSource {
       log("Request Headers: ${e.response?.headers}", name: "getWordDetail");
       log("Response: ${e.response?.data['meta']['message']}",
           name: "getWordDetail", time: DateTime.now());
+
+      if (e.response?.statusCode == 401) {
+        throw UnauthorisedException();
+      }
 
       throw ServerException();
     }
@@ -75,11 +83,17 @@ class BookmarkRemoteDataSourceImpl implements BookmarkRemoteDataSource {
   }
 
   @override
-  Future<Bookmark> getMarkedWord(int dictionaryId) async {
+  Future<Bookmark?> getMarkedWord(int dictionaryId) async {
     try {
       final response = await dio.get(
         Api.baseUrl + ApiPath.getMarkedWord(),
         queryParameters: {'dictionary_id': dictionaryId},
+        // options: Options(
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //     'Authorization': 'Bearer ${LocalStorageService.getToken()}',
+        //   },
+        // ),
       );
 
       final body = ApiResponse.fromJson(response.data);
@@ -88,6 +102,10 @@ class BookmarkRemoteDataSourceImpl implements BookmarkRemoteDataSource {
       log("Request Headers: ${response.headers}", name: "getMarkedWord");
       log("Response: ${body.meta.message}",
           name: "getMarkedWord", time: DateTime.now());
+
+      if (body.data == null) {
+        return null;
+      }
 
       return Bookmark.fromJson(body.data);
     } on DioError catch (e) {

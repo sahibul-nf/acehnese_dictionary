@@ -1,6 +1,9 @@
+import 'package:acehnese_dictionary/app/features/bookmark/data_sources/bookmark_remote_data_source.dart';
 import 'package:acehnese_dictionary/app/features/bookmark/models/bookmarks.dart';
 import 'package:acehnese_dictionary/app/features/bookmark/repositories/bookmark_repository.dart';
 import 'package:acehnese_dictionary/app/utils/color.dart';
+import 'package:acehnese_dictionary/app/utils/error_handling.dart';
+import 'package:acehnese_dictionary/app/utils/failure.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,7 +11,8 @@ import '../../../utils/state_enum.dart';
 import '../models/bookmark.dart';
 
 class BookmarkController extends GetxController {
-  final _bookmarkRepository = BookmarkRepositoryImpl();
+  final _bookmarkRepository = BookmarkRepositoryImpl(
+      remoteDataSource: BookmarkRemoteDataSourceImpl(null));
   final _bookmarks = <Bookmarks>[].obs;
   final _bookmark = Bookmark().obs;
   final _requestState = RequestState.Idle.obs;
@@ -36,34 +40,37 @@ class BookmarkController extends GetxController {
 
   Future<void> getMarkedWord(int dictionaryId) async {
     _requestState.value = RequestState.Loading;
-    final response = await _bookmarkRepository.getMarkedWord(dictionaryId);
+    final result = await _bookmarkRepository.getMarkedWord(dictionaryId);
 
-    if (response.statusCode != 200) {
-      _requestState.value = RequestState.Error;
+    result.fold(
+      (failure) {
+        _requestState.value = RequestState.Error;
 
-      if (response.statusCode == 401) {
-        Get.snackbar(
-          "Opps, your session has expired.",
-          "Please login again!",
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: AppColor.error,
-          colorText: Colors.white,
-          duration: const Duration(seconds: 5),
-        );
-      } else {
-        // show snackbar error message
-        Get.snackbar(
-          "Opps",
-          "Something went wrong",
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: AppColor.error,
-          colorText: Colors.white,
-        );
-      }
-    } else {
-      _bookmark.value = response.data ?? Bookmark();
-      _requestState.value = RequestState.Loaded;
-    }
+        if (failure is UnauthorizedFailure) {
+          Get.snackbar(
+            "Opps, your session has expired.",
+            "Please login again!",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: AppColor.error,
+            colorText: Colors.white,
+            duration: const Duration(seconds: 5),
+          );
+        } else {
+          // show snackbar error message
+          Get.snackbar(
+            "Opps",
+            ErrorHandling.handleError(failure),
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: AppColor.error,
+            colorText: Colors.white,
+          );
+        }
+      },
+      (bookmark) {
+        _bookmark.value = bookmark ?? Bookmark();
+        _requestState.value = RequestState.Loaded;
+      },
+    );
   }
 
   // add word to bookmark

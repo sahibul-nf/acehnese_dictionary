@@ -126,7 +126,7 @@ class BookmarkController extends GetxController {
         // show snackbar error message
         Get.snackbar(
           "Opps",
-          failure.message,
+          ErrorHandling.handleError(failure),
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: AppColor.error,
           colorText: Colors.white,

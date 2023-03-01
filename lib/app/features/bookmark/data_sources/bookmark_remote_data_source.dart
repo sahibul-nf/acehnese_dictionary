@@ -71,6 +71,11 @@ class BookmarkRemoteDataSourceImpl implements BookmarkRemoteDataSource {
           name: "getBookmarks", time: DateTime.now());
 
       final List<Bookmarks> bookmarks = [];
+
+      if (body.data == null) {
+        return bookmarks;
+      }
+
       for (var item in body.data) {
         bookmarks.add(Bookmarks.fromJson(item));
       }

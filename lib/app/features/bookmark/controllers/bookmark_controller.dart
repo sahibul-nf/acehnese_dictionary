@@ -123,14 +123,25 @@ class BookmarkController extends GetxController {
       (failure) {
         _requestState.value = RequestState.Error;
 
-        // show snackbar error message
-        Get.snackbar(
-          "Opps",
-          ErrorHandling.handleError(failure),
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: AppColor.error,
-          colorText: Colors.white,
-        );
+        if (failure is UnauthorizedFailure) {
+          Get.snackbar(
+            "Opps, your session has expired.",
+            "Please login again!",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: AppColor.error,
+            colorText: Colors.white,
+            duration: const Duration(seconds: 5),
+          );
+        } else {
+          // show snackbar error message
+          Get.snackbar(
+            "Opps",
+            ErrorHandling.handleError(failure),
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: AppColor.error,
+            colorText: Colors.white,
+          );
+        }
       },
       (bookmarks) {
         _bookmarks.value = bookmarks;

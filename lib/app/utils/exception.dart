@@ -1,6 +1,6 @@
 class ServerException implements Exception {}
 
-class UnauthorisedException implements Exception {}
+class UnauthorizedException implements Exception {}
 
 class InvalidCredentialException implements Exception {}
 

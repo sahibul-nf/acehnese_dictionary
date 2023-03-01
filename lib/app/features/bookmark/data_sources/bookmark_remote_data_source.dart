@@ -51,7 +51,7 @@ class BookmarkRemoteDataSourceImpl implements BookmarkRemoteDataSource {
           name: "getWordDetail", time: DateTime.now());
 
       if (e.response?.statusCode == 401) {
-        throw UnauthorisedException();
+        throw UnauthorizedException();
       }
 
       throw ServerException();
@@ -87,6 +87,10 @@ class BookmarkRemoteDataSourceImpl implements BookmarkRemoteDataSource {
       log("Response: ${e.response?.data['meta']['message']}",
           name: "getBookmarks", time: DateTime.now());
 
+      if (e.response?.statusCode == 401) {
+        throw UnauthorizedException();
+      }
+
       throw ServerException();
     }
   }
@@ -117,6 +121,10 @@ class BookmarkRemoteDataSourceImpl implements BookmarkRemoteDataSource {
       log("Response: ${e.response?.data['meta']['message']}",
           name: "getMarkedWord", time: DateTime.now());
 
+      if (e.response?.statusCode == 401) {
+        throw UnauthorizedException();
+      }
+
       throw ServerException();
     }
   }
@@ -140,6 +148,10 @@ class BookmarkRemoteDataSourceImpl implements BookmarkRemoteDataSource {
       log("Request Headers: ${e.response?.headers}", name: "removeAllBookmark");
       log("Response: ${e.response?.data['meta']['message']}",
           name: "removeAllBookmark", time: DateTime.now());
+
+      if (e.response?.statusCode == 401) {
+        throw UnauthorizedException();
+      }
 
       throw ServerException();
     }

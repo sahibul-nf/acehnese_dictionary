@@ -29,7 +29,7 @@ class BookmarkRepositoryImpl implements BookmarkRepository {
       return const Left(ConnectionFailure('No Internet Connection'));
     } on ServerException {
       return const Left(ServerFailure(''));
-    } on UnauthorisedException {
+    } on UnauthorizedException {
       return const Left(UnauthorizedFailure(''));
     }
   }
@@ -43,7 +43,7 @@ class BookmarkRepositoryImpl implements BookmarkRepository {
       return const Left(ConnectionFailure('No Internet Connection'));
     } on ServerException {
       return const Left(ServerFailure(''));
-    } on UnauthorisedException {
+    } on UnauthorizedException {
       return const Left(UnauthorizedFailure(''));
     }
   }
@@ -57,7 +57,7 @@ class BookmarkRepositoryImpl implements BookmarkRepository {
       return const Left(ConnectionFailure('No Internet Connection'));
     } on ServerException {
       return const Left(ServerFailure(''));
-    } on UnauthorisedException {
+    } on UnauthorizedException {
       return const Left(UnauthorizedFailure(''));
     }
   }
@@ -71,7 +71,7 @@ class BookmarkRepositoryImpl implements BookmarkRepository {
       return const Left(ConnectionFailure('No Internet Connection'));
     } on ServerException {
       return const Left(ServerFailure(''));
-    } on UnauthorisedException {
+    } on UnauthorizedException {
       return const Left(UnauthorizedFailure(''));
     }
   }

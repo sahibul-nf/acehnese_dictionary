@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:acehnese_dictionary/app/constants/api.dart';
 import 'package:acehnese_dictionary/app/features/bookmark/models/bookmark.dart';
@@ -19,10 +20,12 @@ class BookmarkRemoteDataSourceImpl implements BookmarkRemoteDataSource {
 
   BookmarkRemoteDataSourceImpl(Dio? dio) {
     this.dio = dio ?? Dio();
-    this.dio.options.headers['Content-Type'] = 'application/json';
-    this.dio.options.headers['Authorization'] =
-        'Bearer ${LocalStorageService.getToken()}';
   }
+
+  Options options(String token) => Options(headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      });
 
   @override
   Future<Bookmark> markOrUnmarkWord(int dictionaryId) async {
@@ -30,6 +33,7 @@ class BookmarkRemoteDataSourceImpl implements BookmarkRemoteDataSource {
       final response = await dio.post(
         Api.baseUrl + ApiPath.markOrUnmarkWord(),
         data: {'dictionary_id': dictionaryId},
+        options: options("${LocalStorageService.getToken()}"),
       );
 
       final body = ApiResponse.fromJson(response.data);
@@ -61,7 +65,10 @@ class BookmarkRemoteDataSourceImpl implements BookmarkRemoteDataSource {
   @override
   Future<List<Bookmarks>> getBookmarks() async {
     try {
-      final response = await dio.get(Api.baseUrl + ApiPath.getBookmarks());
+      final response = await dio.get(
+        Api.baseUrl + ApiPath.getBookmarks(),
+        options: options("${LocalStorageService.getToken()}"),
+      );
 
       final body = ApiResponse.fromJson(response.data);
 
@@ -101,6 +108,7 @@ class BookmarkRemoteDataSourceImpl implements BookmarkRemoteDataSource {
       final response = await dio.get(
         Api.baseUrl + ApiPath.getMarkedWord(),
         queryParameters: {'dictionary_id': dictionaryId},
+        options: options("${LocalStorageService.getToken()}"),
       );
 
       final body = ApiResponse.fromJson(response.data);
@@ -132,8 +140,10 @@ class BookmarkRemoteDataSourceImpl implements BookmarkRemoteDataSource {
   @override
   Future<bool> removeAllBookmark() async {
     try {
-      final response =
-          await dio.delete(Api.baseUrl + ApiPath.removeAllBookmark());
+      final response = await dio.delete(
+        Api.baseUrl + ApiPath.removeAllBookmark(),
+        options: options("${LocalStorageService.getToken()}"),
+      );
 
       final body = ApiResponse.fromJson(response.data);
 

@@ -6,6 +6,7 @@ import 'package:acehnese_dictionary/app/features/bookmark/models/bookmark.dart';
 import 'package:acehnese_dictionary/app/features/bookmark/models/bookmarks.dart';
 import 'package:acehnese_dictionary/app/utils/exception.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -13,12 +14,25 @@ import '../helpers/fixture_reader.dart';
 import '../helpers/mocks.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   late MockDio dio;
   late BookmarkRemoteDataSourceImpl dataSource;
 
   setUp(() {
     dio = MockDio();
     dataSource = BookmarkRemoteDataSourceImpl(dio);
+
+    const channel = MethodChannel(
+      'plugins.flutter.io/path_provider_macos',
+    );
+    channel.setMockMethodCallHandler((MethodCall methodCall) async {
+      switch (methodCall.method) {
+        case 'getApplicationDocumentsDirectory':
+          return "PATH_TO_MOCK_DIR";
+        default:
+      }
+    });
   });
 
   // mark & unmark word
@@ -29,7 +43,11 @@ void main() {
     test('should return Bookmark when the response code is 200 (success)',
         () async {
       // arrange
-      when(() => dio.post(url, data: any(named: 'data'))).thenAnswer(
+      when(() => dio.post(
+            url,
+            data: any(named: 'data'),
+            options: any(named: 'options'),
+          )).thenAnswer(
         (_) async => Response(
           requestOptions: RequestOptions(path: url),
           data: jsonDecode(fixture('mark_unmark_word_response.json')),
@@ -47,8 +65,11 @@ void main() {
     test('should throw a ServerException when the response code is not 200',
         () async {
       // arrange
-      when(() => dio.post(url, data: any(named: 'data')))
-          .thenThrow(ServerException());
+      when(() => dio.post(
+            url,
+            data: any(named: 'data'),
+            options: any(named: 'options'),
+          )).thenThrow(ServerException());
 
       // act
       final call = dataSource.markOrUnmarkWord;
@@ -66,8 +87,11 @@ void main() {
     test('should return Bookmark when the response code is 200 (success)',
         () async {
       // arrange
-      when(() => dio.get(url, queryParameters: any(named: 'queryParameters')))
-          .thenAnswer(
+      when(() => dio.get(
+            url,
+            queryParameters: any(named: 'queryParameters'),
+            options: any(named: 'options'),
+          )).thenAnswer(
         (_) async => Response(
           requestOptions: RequestOptions(path: url),
           data: jsonDecode(fixture('get_marked_word_response.json')),
@@ -85,8 +109,11 @@ void main() {
     test('should throw a ServerException when the response code is not 200',
         () async {
       // arrange
-      when(() => dio.get(url, queryParameters: any(named: 'queryParameters')))
-          .thenThrow(ServerException());
+      when(() => dio.get(
+            url,
+            queryParameters: any(named: 'queryParameters'),
+            options: any(named: 'options'),
+          )).thenThrow(ServerException());
 
       // act
       final call = dataSource.getMarkedWord;
@@ -104,7 +131,10 @@ void main() {
         'should return List<Bookmarks> when the response code is 200 (success)',
         () async {
       // arrange
-      when(() => dio.get(url)).thenAnswer(
+      when(() => dio.get(
+            url,
+            options: any(named: 'options'),
+          )).thenAnswer(
         (_) async => Response(
           requestOptions: RequestOptions(path: url),
           data: jsonDecode(fixture('get_bookmarked_words_response.json')),
@@ -122,7 +152,10 @@ void main() {
     test('should throw a ServerException when the response code is not 200',
         () async {
       // arrange
-      when(() => dio.get(url)).thenThrow(ServerException());
+      when(() => dio.get(
+            url,
+            options: any(named: 'options'),
+          )).thenThrow(ServerException());
 
       // act
       final call = dataSource.getBookmarks;
@@ -139,7 +172,10 @@ void main() {
     test('should return true when the response code is 200 (success)',
         () async {
       // arrange
-      when(() => dio.delete(url)).thenAnswer(
+      when(() => dio.delete(
+            url,
+            options: any(named: 'options'),
+          )).thenAnswer(
         (_) async => Response(
           requestOptions: RequestOptions(path: url),
           data: jsonDecode(fixture('delete_all_bookmarks_response.json')),
@@ -157,7 +193,10 @@ void main() {
     test('should throw a ServerException when the response code is not 200',
         () async {
       // arrange
-      when(() => dio.delete(url)).thenThrow(ServerException());
+      when(() => dio.delete(
+            url,
+            options: any(named: 'options'),
+          )).thenThrow(ServerException());
 
       // act
       final call = dataSource.removeAllBookmark;

@@ -46,7 +46,7 @@ class SearchPage extends StatelessWidget {
                 child: Stack(
                   children: [
                     Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         const Flexible(
                           child: SizedBox(

@@ -24,6 +24,125 @@ void main() {
   BookmarkRobot bookmarkRobot;
   ProfileRobot profileRobot;
 
+  group("End to end test - Unregistered user", () {
+    testWidgets("Whole app", (tester) async {
+      // Build the app and trigger a frame
+      app.main();
+
+      splashScreenRobot = SplashScreenRobot(tester: tester);
+      searchRobot = SearchRobot(tester: tester);
+      wordDetailRobot = WordDetailRobot(tester);
+      signInRobot = SignInRobot(tester: tester);
+      signUpRobot = SignUpRobot(tester: tester);
+      wordListRobot = WordListRobot(tester);
+      bookmarkRobot = BookmarkRobot(tester: tester);
+      profileRobot = ProfileRobot(tester: tester);
+
+      const name = "Sahibul";
+      const email = "pass123@gmail.com";
+      const password = "pass123";
+
+      // ====================== System Testing ======================
+      // Test displays the splash screen
+      await splashScreenRobot.verifySplashScreenIsShown();
+
+      // Test search word "cicem" and see the detail of the word
+      await tester.pump(const Duration(seconds: 2));
+      await searchRobot.searchWord("cicem");
+      await addDelay(1000);
+      await searchRobot.tapOnSearchResult("cicém");
+
+      // Test displays the word detail page
+      await wordDetailRobot.verifyWordDetailIsShown("cicém");
+      await wordDetailRobot.scrollPageViewToLeft();
+      await wordDetailRobot.scrollPageViewToRight();
+      await addDelay(2000);
+      await wordDetailRobot.tapOnSwitchLanguageButton();
+      await addDelay(2000);
+      await wordDetailRobot.tapOnSwitchLanguageButton();
+      await addDelay(2000);
+      await wordDetailRobot.tapOnBookmarkButton();
+      await addDelay(1000);
+      await wordDetailRobot.tapOnLoginButton();
+
+      // Test sign in
+      await signInRobot.verifySignInIsShown();
+      await signInRobot.tapOnSignUpButton();
+
+      // Test sign up
+      await signUpRobot.verifySignUpIsShown();
+      await signUpRobot.enterEmailAndPassword(name, email, password);
+      await signUpRobot.tapOnSignUpButton();
+      await tester.pump(const Duration(seconds: 4));
+
+      // Test sign in
+      await signInRobot.verifySignInIsShown();
+      await signInRobot.enterEmailAndPassword(email, password);
+      await signInRobot.tapOnSignInButton();
+
+      await tester.pump(const Duration(seconds: 4));
+
+      // Test displays the word list page
+      await wordListRobot.tapOnWordListOnNavigationBar();
+      await wordListRobot.verifyWordListItemIsShown("'ap");
+      await wordListRobot.scrollThePage();
+      await wordListRobot.scrollThePage(scrollUp: true);
+      await wordListRobot.tapOnWordList("'ap");
+      await wordDetailRobot.tapOnBackButton();
+      await addDelay(1000);
+
+      // Test displays the bookmarks page
+      await bookmarkRobot.tapOnBookmarkButtonOnBtnNavBar();
+      await bookmarkRobot.verifyBookmarkPageIsShown();
+      await bookmarkRobot.verifyBookmarkListItemIsEmpty();
+      await addDelay(3000);
+
+      // Test mark a word as bookmark on word detail page
+      await wordListRobot.tapOnWordListOnNavigationBar();
+      await wordListRobot.verifyWordListItemIsShown("'ap");
+      await wordListRobot.tapOnWordList("'ap");
+      await wordDetailRobot.tapOnBookmarkButton();
+      await addDelay(3000);
+      await wordDetailRobot.tapOnBackButton();
+      await addDelay(1000);
+
+      // Verify marked word is shown on bookmark page
+      await bookmarkRobot.tapOnBookmarkButtonOnBtnNavBar();
+      await bookmarkRobot.verifyBookmarkPageIsShown();
+      await bookmarkRobot.verifyBookmarkListItemIsShown("'ap");
+      await addDelay(1000);
+      await bookmarkRobot.scrollBookmarkListItemToRightOrLeft();
+      await bookmarkRobot.scrollBackBookmarkListItemToRightOrLeft();
+      await addDelay(800);
+
+      // Test displays the profile page
+      await profileRobot.tapOnProfileButton();
+      await profileRobot.verifyProfilePageIsShown();
+      await addDelay(3000);
+
+      // Test sign out
+      await profileRobot.tapOnProfileButton();
+      await profileRobot.verifyProfilePageIsShown();
+      await profileRobot.tapOnSignOutButton();
+      await addDelay(3000);
+
+      // Verify bookmark page is shown no logged in state
+      await bookmarkRobot.tapOnBookmarkButtonOnBtnNavBar();
+      await bookmarkRobot.verifyBookmarkPageIsShown();
+      await bookmarkRobot.verifyBookmarkPageIsShownNoLoggedInState();
+      await addDelay(3000);
+
+      // Verify profile page is shown no logged in state
+      await profileRobot.tapOnProfileButton();
+      await profileRobot.verifyProfilePageIsShown();
+      await profileRobot.verifyProfilePageIsShownNotLoggedInState();
+      await addDelay(3000);
+
+      // Delay for 3 seconds before exit
+      await exit(tester, "Unregistered user");
+    });
+  });
+
   group("End to End Testing - Registered user", () {
     testWidgets('Whole app', (WidgetTester tester) async {
       // Build the app and trigger a frame
@@ -184,125 +303,6 @@ void main() {
 
       // Delay for 3 seconds before exit
       await exit(tester, "Registered user");
-    });
-  });
-
-  group("End to end test - Unregistered user", () {
-    testWidgets("Whole app", (tester) async {
-      // Build the app and trigger a frame
-      app.main();
-
-      splashScreenRobot = SplashScreenRobot(tester: tester);
-      searchRobot = SearchRobot(tester: tester);
-      wordDetailRobot = WordDetailRobot(tester);
-      signInRobot = SignInRobot(tester: tester);
-      signUpRobot = SignUpRobot(tester: tester);
-      wordListRobot = WordListRobot(tester);
-      bookmarkRobot = BookmarkRobot(tester: tester);
-      profileRobot = ProfileRobot(tester: tester);
-
-      const name = "Sahibul";
-      const email = "pass123@gmail.com";
-      const password = "pass123";
-
-      // ====================== System Testing ======================
-      // Test displays the splash screen
-      await splashScreenRobot.verifySplashScreenIsShown();
-
-      // Test search word "cicem" and see the detail of the word
-      await tester.pump(const Duration(seconds: 2));
-      await searchRobot.searchWord("cicem");
-      await addDelay(1000);
-      await searchRobot.tapOnSearchResult("cicém");
-
-      // Test displays the word detail page
-      await wordDetailRobot.verifyWordDetailIsShown("cicém");
-      await wordDetailRobot.scrollPageViewToLeft();
-      await wordDetailRobot.scrollPageViewToRight();
-      await addDelay(2000);
-      await wordDetailRobot.tapOnSwitchLanguageButton();
-      await addDelay(2000);
-      await wordDetailRobot.tapOnSwitchLanguageButton();
-      await addDelay(2000);
-      await wordDetailRobot.tapOnBookmarkButton();
-      await addDelay(1000);
-      await wordDetailRobot.tapOnLoginButton();
-
-      // Test sign in
-      await signInRobot.verifySignInIsShown();
-      await signInRobot.tapOnSignUpButton();
-
-      // Test sign up
-      await signUpRobot.verifySignUpIsShown();
-      await signUpRobot.enterEmailAndPassword(name, email, password);
-      await signUpRobot.tapOnSignUpButton();
-      await tester.pump(const Duration(seconds: 4));
-
-      // Test sign in
-      await signInRobot.verifySignInIsShown();
-      await signInRobot.enterEmailAndPassword(email, password);
-      await signInRobot.tapOnSignInButton();
-
-      await tester.pump(const Duration(seconds: 4));
-
-      // Test displays the word list page
-      await wordListRobot.tapOnWordListOnNavigationBar();
-      await wordListRobot.verifyWordListItemIsShown("'ap");
-      await wordListRobot.scrollThePage();
-      await wordListRobot.scrollThePage(scrollUp: true);
-      await wordListRobot.tapOnWordList("'ap");
-      await wordDetailRobot.tapOnBackButton();
-      await addDelay(1000);
-
-      // Test displays the bookmarks page
-      await bookmarkRobot.tapOnBookmarkButtonOnBtnNavBar();
-      await bookmarkRobot.verifyBookmarkPageIsShown();
-      await bookmarkRobot.verifyBookmarkListItemIsEmpty();
-      await addDelay(3000);
-
-      // Test mark a word as bookmark on word detail page
-      await wordListRobot.tapOnWordListOnNavigationBar();
-      await wordListRobot.verifyWordListItemIsShown("'ap");
-      await wordListRobot.tapOnWordList("'ap");
-      await wordDetailRobot.tapOnBookmarkButton();
-      await addDelay(3000);
-      await wordDetailRobot.tapOnBackButton();
-      await addDelay(1000);
-
-      // Verify marked word is shown on bookmark page
-      await bookmarkRobot.tapOnBookmarkButtonOnBtnNavBar();
-      await bookmarkRobot.verifyBookmarkPageIsShown();
-      await bookmarkRobot.verifyBookmarkListItemIsShown("'ap");
-      await addDelay(1000);
-      await bookmarkRobot.scrollBookmarkListItemToRightOrLeft();
-      await bookmarkRobot.scrollBackBookmarkListItemToRightOrLeft();
-      await addDelay(800);
-
-      // Test displays the profile page
-      await profileRobot.tapOnProfileButton();
-      await profileRobot.verifyProfilePageIsShown();
-      await addDelay(3000);
-
-      // Test sign out
-      await profileRobot.tapOnProfileButton();
-      await profileRobot.verifyProfilePageIsShown();
-      await profileRobot.tapOnSignOutButton();
-      await addDelay(3000);
-
-      // Verify bookmark page is shown no logged in state
-      await bookmarkRobot.tapOnBookmarkButtonOnBtnNavBar();
-      await bookmarkRobot.verifyBookmarkPageIsShown();
-      await bookmarkRobot.verifyBookmarkPageIsShownNoLoggedInState();
-      await addDelay(3000);
-
-      // Verify profile page is shown no logged in state
-      await profileRobot.tapOnProfileButton();
-      await profileRobot.verifyProfilePageIsShown();
-      await profileRobot.verifyProfilePageIsShownNotLoggedInState();
-      await addDelay(3000);
-
-      // Delay for 3 seconds before exit
-      await exit(tester, "Unregistered user");
     });
   });
 }
